@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aditya Krishna - Tech Innovator & Product Management Intern</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor">
+        <div class="cursor-dot"></div>
+        <div class="cursor-outline"></div>
+        <div class="cursor-trail"></div>
+    </div>
+
+    <!-- Matrix Rain Background -->
+    <div class="matrix-bg">
+        <canvas id="matrixCanvas"></canvas>
+    </div>
+
+    <!-- 3D Geometric Background -->
+    <div class="geometric-bg">
+        <div class="geo-shape geo-cube"></div>
+        <div class="geo-shape geo-sphere"></div>
+        <div class="geo-shape geo-pyramid"></div>
+        <div class="geo-shape geo-torus"></div>
+        <div class="geo-shape geo-dodecahedron"></div>
+    </div>
+
+    <!-- Floating Navigation -->
+    <nav class="floating-nav">
+        <div class="nav-container">
+            <a href="#hero" class="nav-item active" data-section="hero">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-text">Home</span>
+            </a>
+            <a href="#about" class="nav-item" data-section="about">
+                <span class="nav-icon">👤</span>
+                <span class="nav-text">About</span>
+            </a>
+            <a href="#skills" class="nav-item" data-section="skills">
+                <span class="nav-icon">⚡</span>
+                <span class="nav-text">Skills</span>
+            </a>
+            <a href="#projects" class="nav-item" data-section="projects">
+                <span class="nav-icon">🚀</span>
+                <span class="nav-text">Projects</span>
+            </a>
+            <a href="#certifications" class="nav-item" data-section="certifications">
+                <span class="nav-icon">🏆</span>
+                <span class="nav-text">Certificates</span>
+            </a>
+            <a href="#experience" class="nav-item" data-section="experience">
+                <span class="nav-icon">💼</span>
+                <span class="nav-text">Experience</span>
+            </a>
+            <a href="#contact" class="nav-item" data-section="contact">
+                <span class="nav-icon">📬</span>
+                <span class="nav-text">Contact</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="animated-background">
+            <!-- Enhanced Particle System -->
+            <div class="particle-container">
+                <div class="particle-system"></div>
+            </div>
+            
+            <!-- 3D Floating Shapes -->
+            <div class="floating-3d-shapes">
+                <div class="shape-3d shape-wireframe-cube"></div>
+                <div class="shape-3d shape-wireframe-sphere"></div>
+                <div class="shape-3d shape-wireframe-pyramid"></div>
+                <div class="shape-3d shape-morphing-blob"></div>
+            </div>
+
+            <!-- Digital Grid -->
+            <div class="digital-grid"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-name">
+                <h1 class="elegant-text glitch-effect" data-text="ADITYA KRISHNA">
+                    <span class="text-layer">ADITYA KRISHNA</span>
+                    <span class="text-layer">ADITYA KRISHNA</span>
+                    <span class="text-layer">ADITYA KRISHNA</span>
+                </h1>
+                <div class="name-underline"></div>
+            </div>
+            
+            <div class="hero-title">
+                <div class="terminal-text">
+                    <span class="terminal-prompt">$</span>
+                    <span class="typewriter" data-text="Product Management Intern | B.Tech CS Student | Tech Innovator"></span>
+                    <span class="terminal-cursor">_</span>
+                </div>
+            </div>
+
+            <div class="hero-contact">
+                <div class="contact-hud">
+                    <div class="hud-item holographic-card" data-label="PHONE">
+                        <div class="hud-hologram"></div>
+                        <span class="hud-label">📱 PHONE</span>
+                        <span class="hud-value">+917985930166</span>
+                        <div class="scan-line"></div>
+                    </div>
+                    <div class="hud-item holographic-card" data-label="EMAIL">
+                        <div class="hud-hologram"></div>
+                        <span class="hud-label">📧 EMAIL</span>
+                        <span class="hud-value">adityakrishna038@gmail.com</span>
+                        <div class="scan-line"></div>
+                    </div>
+                    <div class="hud-item holographic-card" data-label="LOCATION">
+                        <div class="hud-hologram"></div>
+                        <span class="hud-label">📍 LOCATION</span>
+                        <span class="hud-value">Bengaluru, Karnataka</span>
+                        <div class="scan-line"></div>
+                    </div>
+                </div>
+                
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/aditya-krishna1/" class="social-link social-3d" target="_blank" rel="noopener noreferrer">
+                        <div class="social-icon-3d">💼</div>
+                        <span class="social-label">LinkedIn</span>
+                        <div class="link-particle-trail"></div>
+                    </a>
+                    <a href="https://github.com/Adityakris1" class="social-link social-3d" target="_blank" rel="noopener noreferrer">
+                        <div class="social-icon-3d">👨‍💻</div>
+                        <span class="social-label">GitHub</span>
+                        <div class="link-particle-trail"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="scroll-arrow-3d"></div>
+            <span class="scroll-text">Scroll to explore the future</span>
+            <div class="scroll-particles"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section section">
+        <div class="container">
+            <h2 class="section-title morphing-title">
+                <span class="title-3d">About Me</span>
+                <div class="title-particles"></div>
+            </h2>
+            
+            <div class="about-content">
+                <div class="profile-card floating-hologram">
+                    <div class="hologram-border"></div>
+                    <div class="card-header">
+                        <div class="profile-avatar rotating-avatar">
+                            <div class="avatar-inner">AK</div>
+                            <div class="avatar-ring"></div>
+                            <div class="avatar-particles"></div>
+                        </div>
+                        <div class="profile-info">
+                            <h3 class="typewriter-small" data-text="Aditya Krishna">Aditya Krishna</h3>
+                            <p>Product Management Intern</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>Ambitious B.Tech CS student with proven leadership in cross-functional teams, skilled in Agile/Scrum coordination, stakeholder communication, and progress tracking using Jira. Award-winning INSPIRE Scholar with hands-on experience organizing deliverables and driving cloud-based internship projects to completion.</p>
+                    </div>
+                    <div class="hologram-scanner"></div>
+                </div>
+                
+                <div class="education-timeline">
+                    <h3 class="timeline-title glitch-text" data-text="Education Journey">Education Journey</h3>
+                    <div class="timeline">
+                        <div class="timeline-item floating-card">
+                            <div class="timeline-marker pulsing-marker"></div>
+                            <div class="timeline-content">
+                                <h4>B.Tech in Computer Science</h4>
+                                <p>Kalinga Institute Of Industrial Technology, Bhubaneswar</p>
+                                <span class="timeline-date">Sep 2022 – Present</span>
+                                <div class="cgpa-display holographic-badge">CGPA: 8.19</div>
+                            </div>
+                            <div class="card-glow"></div>
+                        </div>
+                        
+                        <div class="timeline-item floating-card">
+                            <div class="timeline-marker pulsing-marker"></div>
+                            <div class="timeline-content">
+                                <h4>12th Standard</h4>
+                                <p>Mary Gardiners Convent High School, Lucknow</p>
+                                <span class="timeline-date">Apr 2021 – Mar 2022</span>
+                                <div class="score-display holographic-badge">75.2%</div>
+                            </div>
+                            <div class="card-glow"></div>
+                        </div>
+                        
+                        <div class="timeline-item floating-card">
+                            <div class="timeline-marker pulsing-marker"></div>
+                            <div class="timeline-content">
+                                <h4>10th Standard</h4>
+                                <p>Kendriya Vidyalaya AMC, Lucknow</p>
+                                <span class="timeline-date">Apr 2019 – Mar 2020</span>
+                                <div class="score-display holographic-badge">92.8%</div>
+                            </div>
+                            <div class="card-glow"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills-section section">
+        <div class="container">
+            <h2 class="section-title morphing-title">
+                <span class="title-3d">Skills & Expertise</span>
+                <div class="title-particles"></div>
+            </h2>
+            
+            <div class="skills-constellation">
+                <div class="skill-category floating-skill-pod">
+                    <div class="pod-glow"></div>
+                    <h3>Programming Languages</h3>
+                    <div class="skill-items">
+                        <div class="skill-badge orbiting-skill">C</div>
+                        <div class="skill-badge orbiting-skill">Java</div>
+                        <div class="skill-badge orbiting-skill">Python</div>
+                    </div>
+                    <div class="skill-connections"></div>
+                </div>
+                
+                <div class="skill-category floating-skill-pod">
+                    <div class="pod-glow"></div>
+                    <h3>Web Development</h3>
+                    <div class="skill-items">
+                        <div class="skill-badge orbiting-skill">HTML</div>
+                        <div class="skill-badge orbiting-skill">CSS</div>
+                        <div class="skill-badge orbiting-skill">JavaScript</div>
+                        <div class="skill-badge orbiting-skill">NodeJS</div>
+                    </div>
+                    <div class="skill-connections"></div>
+                </div>
+                
+                <div class="skill-category floating-skill-pod">
+                    <div class="pod-glow"></div>
+                    <h3>Cloud & Tools</h3>
+                    <div class="skill-items">
+                        <div class="skill-badge orbiting-skill">AWS</div>
+                        <div class="skill-badge orbiting-skill">Git</div>
+                        <div class="skill-badge orbiting-skill">Postman</div>
+                        <div class="skill-badge orbiting-skill">OpenCV</div>
+                    </div>
+                    <div class="skill-connections"></div>
+                </div>
+                
+                <div class="skill-category floating-skill-pod">
+                    <div class="pod-glow"></div>
+                    <h3>Database</h3>
+                    <div class="skill-items">
+                        <div class="skill-badge orbiting-skill">SQL</div>
+                        <div class="skill-badge orbiting-skill">MySQL</div>
+                        <div class="skill-badge orbiting-skill">Oracle</div>
+                    </div>
+                    <div class="skill-connections"></div>
+                </div>
+                
+                <div class="skill-category floating-skill-pod">
+                    <div class="pod-glow"></div>
+                    <h3>Project Management</h3>
+                    <div class="skill-items">
+                        <div class="skill-badge orbiting-skill">Task Scheduling</div>
+                        <div class="skill-badge orbiting-skill">Timeline Management</div>
+                        <div class="skill-badge orbiting-skill">Stakeholder Communication</div>
+                    </div>
+                    <div class="skill-connections"></div>
+                </div>
+                
+                <div class="skill-category floating-skill-pod">
+                    <div class="pod-glow"></div>
+                    <h3>Languages</h3>
+                    <div class="skill-items">
+                        <div class="skill-badge orbiting-skill">English</div>
+                        <div class="skill-badge orbiting-skill">Hindi</div>
+                        <div class="skill-badge orbiting-skill">Maithili</div>
+                        <div class="skill-badge orbiting-skill">Marathi</div>
+                        <div class="skill-badge orbiting-skill">Bengali</div>
+                    </div>
+                    <div class="skill-connections"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section section">
+        <div class="container">
+            <h2 class="section-title morphing-title">
+                <span class="title-3d">Featured Projects</span>
+                <div class="title-particles"></div>
+            </h2>
+            
+            <div class="projects-grid-3d">
+                <div class="project-card holographic-project" data-project="1">
+                    <div class="project-hologram"></div>
+                    <div class="project-header">
+                        <h3 class="glitch-project-title" data-text="Fake Reviews Detection">Fake Reviews Detection</h3>
+                        <span class="project-year digital-counter">2025</span>
+                    </div>
+                    <div class="project-description">
+                        <p>Spearheaded a team of four to deliver a machine learning-based system for identifying fake e-commerce reviews. Developed and executed project plans, managing timelines, task assignments, to meet deadlines. Facilitated stakeholder communication, coordinating the classification of over 40,000 reviews with 85% accuracy through effective team collaboration.</p>
+                    </div>
+                    <div class="project-achievements">
+                        <div class="achievement-stat floating-stat">
+                            <div class="stat-hologram"></div>
+                            <span class="stat-number counter-animate" data-target="40000">40,000+</span>
+                            <span class="stat-label">Reviews Processed</span>
+                        </div>
+                        <div class="achievement-stat floating-stat">
+                            <div class="stat-hologram"></div>
+                            <span class="stat-number counter-animate" data-target="85">85%</span>
+                            <span class="stat-label">Accuracy</span>
+                        </div>
+                    </div>
+                    <div class="project-tech">
+                        <span class="tech-tag floating-tech">Machine Learning</span>
+                        <span class="tech-tag floating-tech">Python</span>
+                        <span class="tech-tag floating-tech">Data Analysis</span>
+                    </div>
+                    <a href="https://github.com/Adityakris1/basic_fake_review_detector" class="project-link holographic-button" target="_blank" rel="noopener noreferrer">
+                        <span class="button-text">View Project</span>
+                        <div class="button-particles"></div>
+                    </a>
+                    <div class="project-scan-lines"></div>
+                </div>
+
+                <div class="project-card holographic-project" data-project="2">
+                    <div class="project-hologram"></div>
+                    <div class="project-header">
+                        <h3 class="glitch-project-title" data-text="Hand Tracking MIDI System">Hand Tracking MIDI System</h3>
+                        <span class="project-year digital-counter">2025</span>
+                    </div>
+                    <div class="project-description">
+                        <p>Independently designed and built a hand gesture-controlled MIDI synthesizer. Managed project planning, timelines, and technical execution, delivering a functional prototype on time. Integrated gesture tracking with MIDI output, creating an innovative user interaction experience.</p>
+                    </div>
+                    <div class="project-achievements">
+                        <div class="achievement-stat floating-stat">
+                            <div class="stat-hologram"></div>
+                            <span class="stat-number">Real-time</span>
+                            <span class="stat-label">Gesture Tracking</span>
+                        </div>
+                        <div class="achievement-stat floating-stat">
+                            <div class="stat-hologram"></div>
+                            <span class="stat-number">MIDI</span>
+                            <span class="stat-label">Integration</span>
+                        </div>
+                    </div>
+                    <div class="project-tech">
+                        <span class="tech-tag floating-tech">Computer Vision</span>
+                        <span class="tech-tag floating-tech">OpenCV</span>
+                        <span class="tech-tag floating-tech">Python</span>
+                    </div>
+                    <a href="https://github.com/Adityakris1/Hand_Scale" class="project-link holographic-button" target="_blank" rel="noopener noreferrer">
+                        <span class="button-text">View Project</span>
+                        <div class="button-particles"></div>
+                    </a>
+                    <div class="project-scan-lines"></div>
+                </div>
+
+                <div class="project-card holographic-project" data-project="3">
+                    <div class="project-hologram"></div>
+                    <div class="project-header">
+                        <h3 class="glitch-project-title" data-text="AWS Virtual Internship">AWS Virtual Internship</h3>
+                        <span class="project-year digital-counter">Oct - Dec 2024</span>
+                    </div>
+                    <div class="project-description">
+                        <p>Designed and deployed scalable cloud infrastructure using AWS services with automated workflows. Automated cloud workflows using AWS CLI, SDKs.</p>
+                    </div>
+                    <div class="project-achievements">
+                        <div class="achievement-stat floating-stat">
+                            <div class="stat-hologram"></div>
+                            <span class="stat-number">Cloud</span>
+                            <span class="stat-label">Infrastructure</span>
+                        </div>
+                        <div class="achievement-stat floating-stat">
+                            <div class="stat-hologram"></div>
+                            <span class="stat-number">AWS</span>
+                            <span class="stat-label">Certified</span>
+                        </div>
+                    </div>
+                    <div class="project-tech">
+                        <span class="tech-tag floating-tech">AWS EC2</span>
+                        <span class="tech-tag floating-tech">S3</span>
+                        <span class="tech-tag floating-tech">IAM</span>
+                    </div>
+                    <div class="project-scan-lines"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="certifications-section section">
+        <div class="container">
+            <h2 class="section-title morphing-title">
+                <span class="title-3d">Certifications</span>
+                <div class="title-particles"></div>
+            </h2>
+            
+            <div class="certifications-grid">
+                <div class="certification-card floating-certificate">
+                    <div class="cert-hologram"></div>
+                    <div class="cert-header">
+                        <h3>Career Essentials in Software Development</h3>
+                        <div class="cert-issuer">LinkedIn & Microsoft</div>
+                    </div>
+                    <a href="https://www.linkedin.com/learning/certificates/11f8246d089cf8b50c54cbefe406425e678aa99b02a921b04a689a4524cf4cff" class="cert-link holographic-cert-button" target="_blank" rel="noopener noreferrer">
+                        <span class="cert-button-text">View Certificate</span>
+                        <div class="cert-button-particles"></div>
+                    </a>
+                    <div class="cert-scan-lines"></div>
+                </div>
+                
+                <div class="certification-card floating-certificate">
+                    <div class="cert-hologram"></div>
+                    <div class="cert-header">
+                        <h3>Business for Good: Fundamentals of Corporate Responsibility</h3>
+                        <div class="cert-issuer">London School Of Business</div>
+                    </div>
+                    <a href="https://www.coursera.org/account/accomplishments/verify/E5BX0JSQYK4B" class="cert-link holographic-cert-button" target="_blank" rel="noopener noreferrer">
+                        <span class="cert-button-text">View Certificate</span>
+                        <div class="cert-button-particles"></div>
+                    </a>
+                    <div class="cert-scan-lines"></div>
+                </div>
+                
+                <div class="certification-card floating-certificate">
+                    <div class="cert-hologram"></div>
+                    <div class="cert-header">
+                        <h3>Career Essentials in Generative AI</h3>
+                        <div class="cert-issuer">LinkedIn & Microsoft</div>
+                    </div>
+                    <a href="https://www.linkedin.com/learning/certificates/70e7ab92ec1138fb73a4e5c4bb9346fb107e577d6fc93661701520a917b63820" class="cert-link holographic-cert-button" target="_blank" rel="noopener noreferrer">
+                        <span class="cert-button-text">View Certificate</span>
+                        <div class="cert-button-particles"></div>
+                    </a>
+                    <div class="cert-scan-lines"></div>
+                </div>
+                
+                <div class="certification-card floating-certificate">
+                    <div class="cert-hologram"></div>
+                    <div class="cert-header">
+                        <h3>Career Essentials In Data Analysis</h3>
+                        <div class="cert-issuer">LinkedIn & Microsoft</div>
+                    </div>
+                    <a href="https://www.linkedin.com/learning/certificates/7f8a617c507661fcbbbac4306a75b13027269f9d61b4cb884535db2a79a98fc6" class="cert-link holographic-cert-button" target="_blank" rel="noopener noreferrer">
+                        <span class="cert-button-text">View Certificate</span>
+                        <div class="cert-button-particles"></div>
+                    </a>
+                    <div class="cert-scan-lines"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience & Awards Section -->
+    <section id="experience" class="experience-section section">
+        <div class="container">
+            <h2 class="section-title morphing-title">
+                <span class="title-3d">Experience & Recognition</span>
+                <div class="title-particles"></div>
+            </h2>
+            
+            <div class="experience-content">
+                <div class="award-showcase">
+                    <div class="inspire-award holographic-award">
+                        <div class="award-hologram"></div>
+                        <div class="award-badge">
+                            <div class="badge-icon rotating-trophy">🏆</div>
+                            <div class="badge-text">
+                                <h3 class="glitch-award-title" data-text="INSPIRE Award">INSPIRE Award</h3>
+                                <p>Dept of Science and Technology, Govt Of India</p>
+                            </div>
+                        </div>
+                        <div class="award-details">
+                            <p>Selected under the Innovation in Science Pursuit for Inspired Research (INSPIRE) scheme by the Department of Science & Technology, Govt. of India. Awarded Rs. 10,000 grant for developing an innovative science project model.</p>
+                            <div class="grant-amount holographic-amount">Rs. 10,000 Grant</div>
+                        </div>
+                        <div class="award-particles"></div>
+                    </div>
+                </div>
+
+                <div class="leadership-section">
+                    <h3 class="leadership-title glitch-text" data-text="Leadership & Volunteering">Leadership & Volunteering</h3>
+                    <div class="leadership-cards">
+                        <div class="leadership-card floating-leadership">
+                            <div class="leadership-hologram"></div>
+                            <div class="card-icon rotating-icon">🎭</div>
+                            <h4>Lead, Dramatics Society of KIIT</h4>
+                            <p>Led a 20-member team to 2nd place at IIT Kharagpur Spring Fest by planning schedules, coordinating tasks, and ensuring smooth execution.</p>
+                            <div class="leadership-particles"></div>
+                        </div>
+                        
+                        <div class="leadership-card floating-leadership">
+                            <div class="leadership-hologram"></div>
+                            <div class="card-icon rotating-icon">🤝</div>
+                            <h4>Member, KIIT NSS & Youth Red Cross</h4>
+                            <p>Organized community outreach events, assigning roles and tracking volunteer hours for social impact initiatives.</p>
+                            <div class="leadership-particles"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section section">
+        <div class="container">
+            <h2 class="section-title morphing-title">
+                <span class="title-3d">Get In Touch</span>
+                <div class="title-particles"></div>
+            </h2>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item holographic-contact-card">
+                        <div class="contact-hologram"></div>
+                        <div class="contact-icon floating-icon">📧</div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <p>adityakrishna038@gmail.com</p>
+                        </div>
+                        <div class="contact-scan-line"></div>
+                    </div>
+                    
+                    <div class="contact-item holographic-contact-card">
+                        <div class="contact-hologram"></div>
+                        <div class="contact-icon floating-icon">📱</div>
+                        <div class="contact-details">
+                            <h4>Phone</h4>
+                            <p>+917985930166</p>
+                        </div>
+                        <div class="contact-scan-line"></div>
+                    </div>
+                    
+                    <div class="contact-item holographic-contact-card">
+                        <div class="contact-hologram"></div>
+                        <div class="contact-icon floating-icon">📍</div>
+                        <div class="contact-details">
+                            <h4>Location</h4>
+                            <p>Bengaluru, Karnataka, India</p>  
+                        </div>
+                        <div class="contact-scan-line"></div>
+                    </div>
+                </div>
+
+                <div class="contact-form-container holographic-form">
+                    <div class="form-hologram"></div>
+                    <form class="contact-form futuristic-form" id="messageForm">
+                        <div class="form-group">
+                            <input type="text" class="form-control holographic-input" id="senderName" placeholder="Your Name" required>
+                            <div class="input-glow"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control holographic-input" id="senderEmail" placeholder="Your Email" required>
+                            <div class="input-glow"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control holographic-input" id="messageSubject" placeholder="Subject" required>
+                            <div class="input-glow"></div>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control holographic-input" id="messageContent" rows="5" placeholder="Your Message" required></textarea>
+                            <div class="input-glow"></div>
+                        </div>
+                        <button type="submit" class="btn btn--primary holographic-submit-button btn--full-width">
+                            <span class="button-text">Send Message to Mobile</span>
+                            <div class="button-particles"></div>
+                            <div class="button-waves"></div>
+                        </button>
+                    </form>
+                    <div class="form-scan-lines"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div class="modal hidden" id="successModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content holographic-modal">
+            <div class="modal-hologram"></div>
+            <div class="modal-header">
+                <h3 class="glitch-modal-title" data-text="Message Sent Successfully! 📱">Message Sent Successfully! 📱</h3>
+                <button class="modal-close holographic-close" onclick="closeModal()">
+                    <span class="close-text">&times;</span>
+                    <div class="close-particles"></div>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Your message has been prepared and WhatsApp should have opened with your message ready to send to <strong>+917985930166</strong>.</p>
+                <p>If WhatsApp didn't open automatically, please check your pop-up blocker settings.</p>
+                <p>Aditya will get back to you soon!</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--primary holographic-modal-button" onclick="closeModal()">
+                    <span class="button-text">Got it!</span>
+                    <div class="button-particles"></div>
+                </button>
+            </div>
+            <div class="modal-scan-lines"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
