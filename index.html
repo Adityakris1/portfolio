@@ -2,39 +2,284 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Aditya Krishna</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Aditya Krishna — Portfolio</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<style>
+/* ─── RESET + VARS ─── */
+:root{
+  --g:#e8c547;--t:#2dd4bf;--p:#a78bfa;--r:#fb7185;--b:#60a5fa;
+  --bg:#04040c;--bg2:#07071a;
+  --syne:'Syne',sans-serif;--ser:'Instrument Serif',serif;--mono:'DM Mono',monospace;
+  --ease:cubic-bezier(.16,1,.3,1);--bnc:cubic-bezier(.34,1.56,.64,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{overflow-x:hidden;scroll-behavior:smooth}
+body{background:var(--bg);color:#f0ede8;font-family:var(--syne);cursor:none;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+canvas{display:block}
+
+/* ─── CURSOR ─── */
+#cur{width:10px;height:10px;background:var(--g);border-radius:50%;position:fixed;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:width .25s var(--ease),height .25s var(--ease)}
+#curRing{width:38px;height:38px;border:1.5px solid rgba(232,197,71,.35);border-radius:50%;position:fixed;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .35s var(--ease),height .35s var(--ease),border-color .3s}
+#cur.big{width:60px;height:60px}
+#curRing.big{width:70px;height:70px;border-color:rgba(232,197,71,.6)}
+
+/* ─── LOADER ─── */
+#loader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;overflow:hidden}
+.lo-glitch{font-family:var(--syne);font-size:clamp(5rem,15vw,12rem);font-weight:800;letter-spacing:-.08em;position:relative}
+.lo-glitch .a{color:var(--g)}
+.lo-glitch .k{color:#f0ede8}
+.lo-glitch::before,.lo-glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;opacity:.6}
+.lo-glitch::before{color:#ff0050;animation:gb 3s infinite;clip-path:polygon(0 20%,100% 20%,100% 35%,0 35%)}
+.lo-glitch::after{color:#00ffff;animation:ga 3s infinite 1s;clip-path:polygon(0 60%,100% 60%,100% 75%,0 75%)}
+@keyframes gb{0%,100%{transform:none;opacity:0}10%{transform:translate(-2px,1px) skewX(-5deg);opacity:.5}20%{transform:translate(2px,-1px) skewX(3deg);opacity:.4}30%{transform:none;opacity:0}}
+@keyframes ga{0%,100%{transform:none;opacity:0}15%{transform:translate(2px,-1px) skewX(4deg);opacity:.5}25%{transform:translate(-2px,1px) skewX(-3deg);opacity:.4}35%{transform:none;opacity:0}}
+.lo-bar{width:240px;height:1px;background:rgba(255,255,255,.07)}
+.lo-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--g),var(--t),var(--p),var(--r));transition:width .04s linear}
+.lo-pct{font-family:var(--mono);font-size:.7rem;color:rgba(255,255,255,.25);letter-spacing:.25em}
+.lo-msg{font-family:var(--mono);font-size:.55rem;color:rgba(255,255,255,.12);letter-spacing:.3em;text-transform:uppercase;min-height:1em}
+#loader.out{animation:loOut .8s var(--ease) forwards}
+@keyframes loOut{to{opacity:0;transform:scale(1.04);pointer-events:none}}
+
+/* ─── NAV ─── */
+nav{position:fixed;inset-inline:0;top:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2.5rem;transition:background .5s,border-color .5s;border-bottom:1px solid transparent}
+nav.scrolled{background:rgba(4,4,12,.88);backdrop-filter:blur(22px);border-color:rgba(255,255,255,.06)}
+.nl{font-size:1.2rem;font-weight:800;letter-spacing:-.03em}.nl span{color:var(--g)}
+.nlinks{display:flex;gap:2rem;list-style:none}
+.nlinks a{font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,237,232,.45);transition:color .3s}.nlinks a:hover,.nlinks a.act{color:var(--g)}
+.ncta{font-size:.7rem;font-weight:700;color:var(--bg);background:var(--g);padding:.46rem 1.1rem;border-radius:100px;transition:transform .3s var(--bnc),box-shadow .3s}.ncta:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 10px 30px rgba(232,197,71,.45)}
+.hbg{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.hbg span{display:block;width:22px;height:1.5px;background:#f0ede8;transition:all .35s var(--ease)}
+.hbg.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hbg.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hbg.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mob{display:none;flex-direction:column;position:fixed;top:58px;left:0;right:0;z-index:490;background:rgba(4,4,12,.97);border-bottom:1px solid rgba(255,255,255,.06);padding:1.5rem 2.5rem 2rem;transform:translateY(-16px);opacity:0;pointer-events:none;transition:transform .4s var(--ease),opacity .4s}
+.mob.open{transform:none;opacity:1;pointer-events:all}
+.mob a{padding:.85rem 0;font-size:1rem;font-weight:700;border-bottom:1px solid rgba(255,255,255,.05);display:block}
+
+/* ─── HERO ─── */
+#hero{height:100vh;position:relative;overflow:hidden;display:flex;align-items:center;padding:0 2.5rem}
+#bgCanvas,#heroCanvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+#bgCanvas{z-index:1}
+#heroCanvas{z-index:3;cursor:grab}
+#heroCanvas:active{cursor:grabbing}
+.hero-inner{position:relative;z-index:5;max-width:900px;padding-top:5rem;pointer-events:none}
+.hero-tag{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--mono);font-size:.67rem;color:rgba(240,237,232,.45);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:.38rem .88rem;border-radius:100px;margin-bottom:1.8rem;backdrop-filter:blur(12px);opacity:0;animation:fup .8s var(--ease) 1.8s both}
+.pdot{width:7px;height:7px;background:#4ade80;border-radius:50%;flex-shrink:0;animation:pd 2s ease-in-out infinite}
+@keyframes pd{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}50%{box-shadow:0 0 0 7px rgba(74,222,128,0)}}
+.hero-h1{font-family:var(--syne);font-size:clamp(4.5rem,12vw,11rem);font-weight:800;letter-spacing:-.07em;line-height:.87;margin-bottom:1.5rem}
+.hw{display:block;overflow:hidden}
+.hw span{display:inline-block;opacity:0;transform:translateY(100%);animation:wup 1s var(--ease) both}
+.hw:nth-child(1) span{animation-delay:1.85s}
+.hw:nth-child(2) span{animation-delay:2s}
+.hw:nth-child(2) span{font-family:var(--ser);font-style:italic;font-weight:400;background:linear-gradient(120deg,var(--g) 0%,var(--r) 50%,var(--p) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+@keyframes wup{to{opacity:1;transform:none}}
+.hero-sub{font-size:.95rem;color:rgba(240,237,232,.45);margin-bottom:.9rem;opacity:0;animation:fup .7s var(--ease) 2.15s both}
+.hero-meta{font-family:var(--mono);font-size:.65rem;color:rgba(240,237,232,.2);margin-bottom:2.4rem;opacity:0;animation:fup .7s var(--ease) 2.3s both}
+@keyframes fup{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.hero-btns{display:flex;gap:.9rem;flex-wrap:wrap;opacity:0;animation:fup .7s var(--ease) 2.45s both;pointer-events:all}
+.btn-plasma{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 2rem;border-radius:100px;font-family:var(--syne);font-size:.88rem;font-weight:700;color:#04040c;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--g),#f0a030);transition:transform .35s var(--bnc),box-shadow .35s}
+.btn-plasma::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--t),var(--p));opacity:0;transition:opacity .4s}
+.btn-plasma:hover::before{opacity:1}
+.btn-plasma:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 18px 50px rgba(232,197,71,.45);color:#04040c}
+.btn-plasma span{position:relative;z-index:1}
+.btn-ghost2{display:inline-block;padding:.9rem 1.6rem;border-radius:100px;font-size:.88rem;font-weight:600;color:rgba(240,237,232,.55);border:1px solid rgba(255,255,255,.12);transition:color .3s,border-color .3s,transform .35s var(--bnc),background .3s}
+.btn-ghost2:hover{color:#f0ede8;border-color:rgba(255,255,255,.28);transform:translateY(-2px);background:rgba(255,255,255,.04)}
+
+/* DRAG HINT */
+.drag-lbl{position:absolute;bottom:6.5rem;right:2.5rem;z-index:6;font-family:var(--mono);font-size:.58rem;color:rgba(255,255,255,.18);letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:.5rem;opacity:0;animation:fup .6s ease 2.8s both}
+.drag-icon{width:28px;height:28px;border:1px solid rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;animation:spin 8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* SCROLL INDICATOR */
+.scroll-ind{position:absolute;bottom:1.2rem;left:2.5rem;z-index:6;display:flex;align-items:center;gap:.75rem;opacity:0;animation:fup .6s ease 2.9s both}
+.scroll-mouse{width:22px;height:34px;border:1.5px solid rgba(255,255,255,.18);border-radius:11px;display:flex;justify-content:center;padding-top:5px}
+.scroll-wheel{width:3px;height:7px;background:var(--g);border-radius:3px;animation:sw 2s ease-in-out infinite}
+@keyframes sw{0%,100%{transform:translateY(0);opacity:1}70%{transform:translateY(9px);opacity:0}}
+.scroll-ind span{font-family:var(--mono);font-size:.58rem;color:rgba(255,255,255,.2);letter-spacing:.15em;text-transform:uppercase}
+
+/* MARQUEE */
+.mstrip{position:absolute;bottom:4rem;left:0;right:0;z-index:6;overflow:hidden;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);background:rgba(4,4,12,.4);backdrop-filter:blur(8px);padding:.65rem 0}
+.minner{display:flex;gap:2.5rem;align-items:center;white-space:nowrap;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.18);animation:mq 35s linear infinite}
+.minner .mdot{color:var(--g);font-size:.45rem}
+@keyframes mq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ─── SECTION COMMONS ─── */
+.sec{padding:9rem 0;border-top:1px solid rgba(255,255,255,.05);overflow:hidden}
+.sec-dark{background:var(--bg)}
+.sec-mid{background:linear-gradient(160deg,var(--bg) 0%,#06061a 50%,#080812 100%)}
+.sec-light{background:#f4f1ec}
+.sec-cosmic{background:radial-gradient(ellipse at 30% 50%,#0d062a 0%,var(--bg) 60%)}
+.sec-contact{background:linear-gradient(160deg,#070718 0%,var(--bg) 60%);position:relative;overflow:hidden}
+.container{max-width:1200px;margin:0 auto;padding:0 2.5rem}
+.eyebrow{font-family:var(--mono);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:1.2rem}
+.eyebrow.dk{color:#8a7a50}
+.sec-title{font-family:var(--syne);font-size:clamp(2.2rem,4.5vw,4rem);font-weight:800;letter-spacing:-.05em;line-height:1;margin-bottom:3rem}
+.sec-title em{font-family:var(--ser);font-style:italic;font-weight:400;color:var(--g)}
+.sec-title.dk{color:#1a160e}
+.sec-title.dk em{color:#8a7a50}
+
+/* REVEAL */
+.rev{opacity:0;transform:translateY(36px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.rev.in{opacity:1;transform:none}
+.rev.from-left{transform:translateX(-40px)}
+.rev.from-left.in{transform:none}
+.rev.from-right{transform:translateX(40px)}
+.rev.from-right.in{transform:none}
+
+/* ─── ABOUT ─── */
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:center}
+.about-giant{font-family:var(--syne);font-size:clamp(3rem,5.5vw,5.5rem);font-weight:800;letter-spacing:-.055em;line-height:.95;margin-bottom:2rem}
+.about-giant em{font-family:var(--ser);font-style:italic;font-weight:400;color:var(--g)}
+.body-text{font-size:.9rem;line-height:1.9;color:rgba(240,237,232,.5);margin-bottom:1.1rem}
+.langs{display:flex;flex-wrap:wrap;gap:.4rem;margin:1.5rem 0 2rem}
+.langs span{font-family:var(--mono);font-size:.64rem;color:var(--g);background:rgba(232,197,71,.08);border:1px solid rgba(232,197,71,.15);padding:.26rem .7rem;border-radius:100px;transition:background .3s,transform .3s var(--bnc)}.langs span:hover{background:rgba(232,197,71,.18);transform:translateY(-2px)}
+.big-stats{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.bstat{padding:1.8rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:18px;transition:border-color .3s,transform .5s var(--ease),box-shadow .4s;position:relative;overflow:hidden}
+.bstat::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(232,197,71,.08),transparent 70%);opacity:0;transition:opacity .4s}
+.bstat:hover{border-color:rgba(232,197,71,.3);transform:translateY(-5px);box-shadow:0 22px 55px rgba(0,0,0,.6)}.bstat:hover::before{opacity:1}
+.bstat-v{font-family:var(--syne);font-size:2.5rem;font-weight:800;letter-spacing:-.06em;background:linear-gradient(135deg,var(--g),var(--t));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;margin-bottom:.3rem}
+.bstat-k{font-size:.72rem;color:rgba(240,237,232,.4);font-family:var(--mono);letter-spacing:.08em}
+
+/* EDU TIMELINE */
+.edu-timeline{margin-top:4rem;position:relative}
+.edu-timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--g),rgba(232,197,71,.2),transparent)}
+.edu-row{padding:1.2rem 0 1.2rem 2rem;position:relative;border-bottom:1px solid rgba(255,255,255,.04)}
+.edu-row:last-child{border-bottom:none}
+.edu-row::before{content:'';position:absolute;left:-4px;top:1.6rem;width:9px;height:9px;background:var(--bg);border:2px solid var(--g);border-radius:50%;transition:transform .4s var(--bnc)}.edu-row:hover::before{transform:scale(1.5);box-shadow:0 0 10px rgba(232,197,71,.4)}
+.edu-yr{font-family:var(--mono);font-size:.6rem;color:var(--g);margin-bottom:.3rem;letter-spacing:.07em}
+.edu-name{font-size:.95rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.15rem}
+.edu-det{font-size:.75rem;color:rgba(240,237,232,.4)}
+
+/* ─── SKILLS ─── */
+.skills-constellation{position:relative;height:500px;margin-top:2rem}
+#skillsCanvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+
+/* ─── PROJECTS ─── */
+.proj-grid{display:flex;flex-direction:column;gap:0}
+.proj-item{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;padding:5rem 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.proj-item:last-child{border-bottom:none}
+.proj-item:nth-child(even){direction:rtl}.proj-item:nth-child(even)>*{direction:ltr}
+.proj-screen{aspect-ratio:4/3;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:20px;position:relative;overflow:hidden;transition:border-color .4s,transform .5s var(--ease),box-shadow .4s}
+.proj-screen:hover{border-color:rgba(232,197,71,.3);transform:translateY(-6px);box-shadow:0 30px 80px rgba(0,0,0,.7)}
+.proj-screen canvas{width:100%!important;height:100%!important;display:block}
+.proj-n-big{position:absolute;bottom:.5rem;right:1rem;font-family:var(--syne);font-size:5.5rem;font-weight:800;letter-spacing:-.12em;color:rgba(255,255,255,.04);line-height:1;pointer-events:none;user-select:none}
+.proj-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem}
+.proj-yr{font-family:var(--mono);font-size:.62rem;color:var(--g);letter-spacing:.08em}
+.proj-cta{font-size:.7rem;font-weight:700;color:var(--bg);background:var(--g);padding:.32rem .85rem;border-radius:100px;transition:transform .3s var(--bnc),box-shadow .3s}.proj-cta:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(232,197,71,.45)}
+.proj-badge{font-family:var(--mono);font-size:.62rem;color:var(--g);background:rgba(232,197,71,.1);border:1px solid rgba(232,197,71,.22);padding:.28rem .75rem;border-radius:100px}
+.proj-title{font-family:var(--syne);font-size:1.7rem;font-weight:800;letter-spacing:-.045em;line-height:1.1;margin-bottom:.9rem}
+.proj-body{font-size:.85rem;line-height:1.82;color:rgba(240,237,232,.48);margin-bottom:1.3rem}
+.proj-tags{display:flex;flex-wrap:wrap;gap:.38rem;margin-bottom:1.5rem}
+.proj-tags span{font-family:var(--mono);font-size:.62rem;color:rgba(240,237,232,.4);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:.2rem .6rem;border-radius:5px;transition:color .2s,border-color .2s}.proj-tags span:hover{color:#f0ede8;border-color:rgba(255,255,255,.18)}
+.proj-nums{display:flex;gap:2rem;padding-top:1.3rem;border-top:1px solid rgba(255,255,255,.05);flex-wrap:wrap}
+.pn-v{display:block;font-family:var(--syne);font-size:1.5rem;font-weight:800;letter-spacing:-.045em;background:linear-gradient(120deg,var(--g),var(--t));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.pn-k{font-family:var(--mono);font-size:.6rem;color:rgba(255,255,255,.25);letter-spacing:.08em}
+
+/* ─── EXPERIENCE ─── */
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem}
+.exp-tl{position:relative;padding-left:2.2rem}
+.exp-tl::before{content:'';position:absolute;left:4px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,#8a7a50 0%,rgba(138,122,80,.15) 70%,transparent)}
+.exp-item{position:relative;margin-bottom:2.8rem}.exp-item:last-child{margin-bottom:0}
+.exp-dot{position:absolute;left:-2.2rem;top:5px;width:11px;height:11px;background:#f4f1ec;border:2px solid #8a7a50;border-radius:50%;transition:transform .4s var(--bnc)}.exp-item:hover .exp-dot{transform:scale(1.5);box-shadow:0 0 12px rgba(138,122,80,.5)}
+.exp-date{font-family:var(--mono);font-size:.6rem;color:#8a7a50;margin-bottom:.35rem;letter-spacing:.08em}
+.exp-co{font-size:1.05rem;font-weight:700;letter-spacing:-.03em;color:#1a160e;margin-bottom:.12rem}
+.exp-role{font-size:.75rem;color:#7a6f5a;margin-bottom:.5rem}
+.exp-body{font-size:.78rem;line-height:1.76;color:#7a6f5a;margin-bottom:.75rem}
+.exp-tags{display:flex;flex-wrap:wrap;gap:.38rem}
+.exp-tags span{font-family:var(--mono);font-size:.58rem;color:#8a7a50;background:rgba(138,122,80,.1);border:1px solid rgba(138,122,80,.2);padding:.16rem .55rem;border-radius:5px;transition:background .2s,transform .25s var(--bnc)}.exp-tags span:hover{background:rgba(138,122,80,.22);transform:translateY(-2px)}
+
+.award-xl{background:linear-gradient(135deg,#181208,#201808);border:1px solid rgba(138,122,80,.25);border-radius:24px;padding:2.5rem;position:relative;overflow:hidden;transition:transform .4s var(--ease),box-shadow .4s}
+.award-xl:hover{transform:translateY(-6px);box-shadow:0 30px 70px rgba(0,0,0,.35)}
+.award-xl::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(232,197,71,.04),transparent 55%);pointer-events:none}
+.aw-glow{position:absolute;top:-80px;right:-80px;width:260px;height:260px;background:radial-gradient(circle,rgba(232,197,71,.12),transparent 70%);pointer-events:none;animation:aglw 5s ease-in-out infinite alternate}
+@keyframes aglw{0%{transform:translate(0,0)}100%{transform:translate(20px,15px)}}
+.aw-top{display:flex;align-items:flex-start;gap:1rem;margin-bottom:.6rem;position:relative;z-index:1}
+.aw-icon{font-size:2.2rem;animation:wig 3.5s ease-in-out infinite}
+@keyframes wig{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+.aw-name{font-size:1.3rem;font-weight:700;letter-spacing:-.03em;color:#1a160e;margin-bottom:.15rem}
+.aw-money{margin-left:auto;font-family:var(--mono);font-size:1.2rem;font-weight:500;color:#8a7a50}
+.aw-org{font-family:var(--mono);font-size:.6rem;color:#8a7a50;letter-spacing:.07em;margin-bottom:1.1rem;position:relative;z-index:1}
+.aw-body{font-size:.8rem;line-height:1.78;color:#7a6f5a;position:relative;z-index:1}
+
+/* ─── CERTS ─── */
+.cg-title{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,237,232,.6);margin:3.5rem 0 1rem;display:flex;align-items:center;gap:.7rem}
+.cg-title:first-of-type{margin-top:0}
+.cg-title span{color:rgba(240,237,232,.25);font-size:.6rem;letter-spacing:.04em;text-transform:none;font-weight:400}
+.cert-grid{display:grid;gap:.9rem;margin-bottom:.3rem}
+.cert-3{grid-template-columns:repeat(3,1fr)}
+.cert-2{grid-template-columns:repeat(2,1fr)}
+.cert-card{display:flex;flex-direction:column;gap:.45rem;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:1.6rem;position:relative;overflow:hidden;transition:border-color .35s,transform .45s var(--ease),box-shadow .35s}
+.cert-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(232,197,71,.04),transparent 55%);opacity:0;transition:opacity .4s;pointer-events:none}
+.cert-card:hover{border-color:rgba(232,197,71,.3);transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,.6)}.cert-card:hover::after{opacity:1}
+.cert-feat{border-color:rgba(232,197,71,.16);background:linear-gradient(135deg,rgba(232,197,71,.04),rgba(255,255,255,.02) 60%)}
+.cc-iss{font-family:var(--mono);font-size:.58rem;color:var(--g);letter-spacing:.08em}
+.cc-name{font-size:.88rem;font-weight:700;letter-spacing:-.02em;line-height:1.3;flex:1}
+.cc-id{font-family:var(--mono);font-size:.54rem;color:rgba(255,255,255,.18)}
+.cc-arr{position:absolute;top:1.3rem;right:1.3rem;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.08);border-radius:50%;font-size:.8rem;color:rgba(255,255,255,.3);transition:background .3s,color .3s,border-color .3s,transform .35s var(--bnc)}
+.cert-card:hover .cc-arr{background:var(--g);color:var(--bg);border-color:var(--g);transform:scale(1.15) rotate(5deg)}
+
+/* ─── CONTACT ─── */
+#contactCanvas{position:absolute;inset:0;width:100%!important;height:100%!important;z-index:1;opacity:.5}
+.contact-inner{position:relative;z-index:2}
+.contact-h1{font-family:var(--syne);font-size:clamp(3.5rem,9vw,8rem);font-weight:800;letter-spacing:-.07em;line-height:.88;margin:1.5rem 0 1.2rem}
+.contact-h1 em{font-family:var(--ser);font-style:italic;font-weight:400;background:linear-gradient(120deg,var(--g),var(--r),var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.contact-sub{font-size:.88rem;color:rgba(240,237,232,.4);margin-bottom:3rem}
+.c-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:.95rem;max-width:660px;margin-bottom:2.2rem}
+.c-card{display:flex;gap:.9rem;align-items:center;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:1.2rem 1.5rem;transition:border-color .35s,background .35s,transform .4s var(--bnc),box-shadow .35s;position:relative;overflow:hidden}
+.c-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(232,197,71,.06),transparent 60%);opacity:0;transition:opacity .4s;pointer-events:none}
+.c-card:hover{border-color:var(--g);transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.55)}.c-card:hover::before{opacity:1}
+.cc-ico{font-size:1.3rem;flex-shrink:0;transition:transform .4s var(--bnc)}.c-card:hover .cc-ico{transform:scale(1.2) rotate(-8deg)}
+.cc-lbl{font-family:var(--mono);font-size:.57rem;color:rgba(240,237,232,.35);letter-spacing:.08em;margin-bottom:.1rem}
+.cc-val{font-size:.8rem;font-weight:600;color:#f0ede8}
+.btn-wa{font-family:var(--syne);font-size:.9rem;font-weight:700;color:var(--bg);background:linear-gradient(135deg,var(--g),var(--t));padding:.9rem 2.3rem;border-radius:100px;border:none;cursor:pointer;transition:transform .35s var(--bnc),box-shadow .35s}.btn-wa:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 14px 40px rgba(45,212,191,.45)}
+
+/* ─── FOOTER ─── */
+footer{background:var(--bg);border-top:1px solid rgba(255,255,255,.05);padding:1.8rem 2.5rem}
+.fi{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;font-family:var(--mono);font-size:.6rem;color:rgba(255,255,255,.2);letter-spacing:.07em;flex-wrap:wrap;gap:.5rem}
+.flogo{font-family:var(--syne);font-size:1rem;font-weight:800;letter-spacing:-.03em;color:#f0ede8}.flogo span{color:var(--g)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:960px){
+  nav{padding:.9rem 1.5rem}.nlinks,.ncta{display:none}.hbg{display:flex}
+  #hero,.container{padding-left:1.5rem;padding-right:1.5rem}
+  .drag-lbl,.scroll-ind{display:none}
+  .about-layout{grid-template-columns:1fr;gap:3rem}
+  .big-stats{grid-template-columns:1fr 1fr}
+  .proj-item{grid-template-columns:1fr;gap:2.5rem;direction:ltr!important}.proj-item>*{direction:ltr!important}
+  .exp-grid{grid-template-columns:1fr;gap:3.5rem}
+  .cert-3,.cert-2{grid-template-columns:1fr}
+  .c-cards{grid-template-columns:1fr;max-width:360px}
+  .skills-constellation{height:320px}
+  .fi{flex-direction:column;text-align:center}
+}
+@media(max-width:600px){
+  .big-stats{grid-template-columns:1fr 1fr}
+  .hero-h1{font-size:clamp(3.8rem,13vw,7rem)}
+  .contact-h1{font-size:clamp(3rem,13vw,5.5rem)}
+}
+</style>
 </head>
 <body>
 
+<!-- CURSOR -->
+<div id="cur"></div>
+<div id="curRing"></div>
+
 <!-- LOADER -->
 <div id="loader">
-  <div class="loader-bg"></div>
-  <div class="loader-content">
-    <div class="loader-name">
-      <span class="ln-a">A</span><span class="ln-k">K</span>
-    </div>
-    <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
-    <div class="loader-pct" id="loaderPct">0</div>
-    <div class="loader-tagline">Engineer · Builder · Creator</div>
-  </div>
+  <div class="lo-glitch" data-text="AK"><span class="a">A</span><span class="k">K</span></div>
+  <div class="lo-bar"><div class="lo-fill" id="loFill"></div></div>
+  <div class="lo-pct" id="loPct">0</div>
+  <div class="lo-msg" id="loMsg">Initialising</div>
+  <div class="lo-tag">Engineer · Builder · Creator</div>
 </div>
-
-<!-- CURSOR -->
-<div class="cursor" id="cursor">
-  <div class="cursor-dot"></div>
-  <div class="cursor-text" id="cursorText"></div>
-</div>
-<div class="cursor-ring" id="cursorRing"></div>
 
 <!-- NAV -->
 <nav id="nav">
-  <a href="#hero" class="nav-logo">AK<span>.</span></a>
-  <ul class="nav-links">
+  <a href="#hero" class="nl">AK<span>.</span></a>
+  <ul class="nlinks">
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#projects">Projects</a></li>
@@ -42,10 +287,10 @@
     <li><a href="#certifications">Certs</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="#contact" class="nav-cta" data-cursor="Talk">Let's Talk →</a>
-  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  <a href="#contact" class="ncta">Let's Talk →</a>
+  <button class="hbg" id="hbg"><span></span><span></span><span></span></button>
 </nav>
-<div class="mobile-menu" id="mobileMenu">
+<div class="mob" id="mob">
   <a href="#about">About</a><a href="#skills">Skills</a>
   <a href="#projects">Projects</a><a href="#experience">Experience</a>
   <a href="#certifications">Certs</a><a href="#contact">Contact</a>
@@ -53,192 +298,113 @@
 
 <!-- HERO -->
 <section id="hero">
-  <!-- WebGL liquid canvas -->
-  <canvas id="liquidCanvas"></canvas>
-  <!-- Three.js 3D canvas -->
-  <canvas id="threeCanvas"></canvas>
-
+  <canvas id="bgCanvas"></canvas>
+  <canvas id="heroCanvas"></canvas>
   <div class="hero-inner">
-    <div class="hero-eyebrow">
-      <span class="pulse-dot"></span>
-      <span class="hero-eyebrow-text">Open to opportunities</span>
-      <span class="hero-eyebrow-loc">📍 Bengaluru · Accenture ASE · KIIT CS '26</span>
-    </div>
+    <div class="hero-tag"><span class="pdot"></span>Open to opportunities</div>
     <h1 class="hero-h1">
-      <span class="hero-line hero-line-1">
-        <span class="hero-word" data-text="Aditya">Aditya</span>
-      </span>
-      <span class="hero-line hero-line-2">
-        <em class="hero-word" data-text="Krishna">Krishna</em>
-      </span>
+      <span class="hw"><span>Aditya</span></span>
+      <span class="hw"><span>Krishna</span></span>
     </h1>
     <p class="hero-sub">Software Engineer &nbsp;·&nbsp; Product Thinker &nbsp;·&nbsp; Builder</p>
-    <div class="hero-actions">
-      <a href="#projects" class="btn-grad" data-cursor="Explore">
-        <span class="btn-grad-bg"></span>
-        <span class="btn-grad-text">Explore Work</span>
-      </a>
-      <a href="https://github.com/Adityakris1" target="_blank" class="btn-outline" data-cursor="GitHub">GitHub ↗</a>
-      <a href="https://www.linkedin.com/in/aditya-krishna1/" target="_blank" class="btn-outline" data-cursor="Connect">LinkedIn ↗</a>
+    <p class="hero-meta">📍 Bengaluru · Accenture ASE · KIIT CS '26</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-plasma"><span>Explore Work</span></a>
+      <a href="https://github.com/Adityakris1" target="_blank" class="btn-ghost2">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/aditya-krishna1/" target="_blank" class="btn-ghost2">LinkedIn ↗</a>
     </div>
   </div>
-
-  <!-- Floating 3D label -->
-  <div class="three-hint">drag · rotate · explore</div>
-
-  <!-- Kinetic marquee -->
-  <div class="marquee-strip">
-    <div class="marquee-inner">
-      <span>Software Engineer</span><span class="dot">◆</span>
-      <span>ML Systems</span><span class="dot">◆</span>
-      <span>Product Strategy</span><span class="dot">◆</span>
-      <span>AWS Cloud</span><span class="dot">◆</span>
-      <span>INSPIRE Award</span><span class="dot">◆</span>
-      <span>Computer Vision</span><span class="dot">◆</span>
-      <span>Accenture</span><span class="dot">◆</span>
-      <span>KIIT</span><span class="dot">◆</span>
-      <span>Software Engineer</span><span class="dot">◆</span>
-      <span>ML Systems</span><span class="dot">◆</span>
-      <span>Product Strategy</span><span class="dot">◆</span>
-      <span>AWS Cloud</span><span class="dot">◆</span>
-      <span>INSPIRE Award</span><span class="dot">◆</span>
-      <span>Computer Vision</span><span class="dot">◆</span>
-      <span>Accenture</span><span class="dot">◆</span>
-      <span>KIIT</span><span class="dot">◆</span>
-    </div>
-  </div>
-
-  <div class="scroll-indicator">
-    <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
-    <span>Scroll</span>
-  </div>
+  <div class="drag-lbl"><div class="drag-icon">⊕</div>drag · rotate · explore</div>
+  <div class="mstrip"><div class="minner">
+    <span>Software Engineer</span><span class="mdot">◆</span><span>ML Systems</span><span class="mdot">◆</span><span>Product Strategy</span><span class="mdot">◆</span><span>AWS Cloud</span><span class="mdot">◆</span><span>INSPIRE Award</span><span class="mdot">◆</span><span>Computer Vision</span><span class="mdot">◆</span><span>Accenture</span><span class="mdot">◆</span><span>KIIT</span><span class="mdot">◆</span>
+    <span>Software Engineer</span><span class="mdot">◆</span><span>ML Systems</span><span class="mdot">◆</span><span>Product Strategy</span><span class="mdot">◆</span><span>AWS Cloud</span><span class="mdot">◆</span><span>INSPIRE Award</span><span class="mdot">◆</span><span>Computer Vision</span><span class="mdot">◆</span><span>Accenture</span><span class="mdot">◆</span><span>KIIT</span><span class="mdot">◆</span>
+  </div></div>
+  <div class="scroll-ind"><div class="scroll-mouse"><div class="scroll-wheel"></div></div><span>Scroll</span></div>
 </section>
 
 <!-- ABOUT -->
-<section id="about" class="section-dark">
+<section id="about" class="sec sec-dark">
   <div class="container">
-    <div class="section-eyebrow rev">01 — About</div>
     <div class="about-layout">
-      <div class="about-left">
-        <h2 class="section-giant rev">CS undergrad<br>who ships<br><em>ML systems</em><br>at scale</h2>
-      </div>
-      <div class="about-right">
-        <p class="body-lg rev">Ambitious B.Tech CS student at KIIT with proven leadership in cross-functional teams, skilled in Agile/Scrum coordination, stakeholder communication, and progress tracking. Award-winning INSPIRE Scholar.</p>
-        <p class="body-lg rev">Currently an <strong>Associate Software Engineer at Accenture</strong> — selected through competitive campus recruitment. <strong>INSPIRE Award</strong> recipient — ₹10,000 from Dept. of Science &amp; Technology, Govt. of India.</p>
-        <div class="langs rev">
-          <span>English</span><span>Hindi</span><span>Maithili</span><span>Marathi</span><span>Bengali</span>
-        </div>
-        <div class="about-stats rev">
-          <div class="astat"><span class="astat-v" data-val="85" data-sfx="%">0%</span><span class="astat-k">Accuracy</span></div>
-          <div class="astat"><span class="astat-v" data-val="40" data-sfx="K+">0K+</span><span class="astat-k">Reviews</span></div>
-          <div class="astat"><span class="astat-v" data-val="8.25" data-sfx="" data-dec="1">0</span><span class="astat-k">CGPA</span></div>
-          <div class="astat"><span class="astat-v" data-val="100" data-sfx="+">0+</span><span class="astat-k">Teams Led</span></div>
+      <div>
+        <div class="eyebrow rev">01 — About</div>
+        <h2 class="about-giant rev">CS undergrad<br>who ships<br><em>ML systems</em><br>at scale</h2>
+        <p class="body-text rev">Ambitious B.Tech CS student at KIIT with proven leadership in cross-functional teams, skilled in Agile/Scrum coordination, stakeholder communication, and progress tracking. Award-winning INSPIRE Scholar.</p>
+        <p class="body-text rev">Currently an <strong>Associate Software Engineer at Accenture</strong> — selected through competitive campus recruitment. <strong>INSPIRE Award</strong> recipient — ₹10,000 from Dept. of Science &amp; Technology, Govt. of India.</p>
+        <div class="langs rev"><span>English</span><span>Hindi</span><span>Maithili</span><span>Marathi</span><span>Bengali</span></div>
+        <div class="big-stats">
+          <div class="bstat rev"><span class="bstat-v" data-val="85" data-sfx="%">0%</span><span class="bstat-k">Classifier Accuracy</span></div>
+          <div class="bstat rev"><span class="bstat-v" data-val="40" data-sfx="K+">0K+</span><span class="bstat-k">Reviews Processed</span></div>
+          <div class="bstat rev"><span class="bstat-v" data-val="8.25" data-sfx="" data-dec="1">0</span><span class="bstat-k">CGPA at KIIT</span></div>
+          <div class="bstat rev"><span class="bstat-v" data-val="100" data-sfx="+">0+</span><span class="bstat-k">Teams at IIT KGP</span></div>
         </div>
       </div>
-    </div>
-    <!-- Education strip -->
-    <div class="edu-strip rev">
-      <div class="edu-block"><div class="edu-yr">2022–Now</div><div class="edu-name">KIIT Bhubaneswar</div><div class="edu-detail">B.Tech CS · 8.25 CGPA</div></div>
-      <div class="edu-divider"></div>
-      <div class="edu-block"><div class="edu-yr">2021–22</div><div class="edu-name">Mary Gardiners</div><div class="edu-detail">12th · 75.2%</div></div>
-      <div class="edu-divider"></div>
-      <div class="edu-block"><div class="edu-yr">2019–20</div><div class="edu-name">KV AMC Lucknow</div><div class="edu-detail">10th · 92.8%</div></div>
+      <div>
+        <canvas id="aboutCanvas" style="width:100%;height:420px;border-radius:20px;border:1px solid rgba(255,255,255,.06)"></canvas>
+        <div class="edu-timeline" style="margin-top:2.5rem">
+          <div class="edu-row rev"><div class="edu-yr">2022–Present</div><div class="edu-name">KIIT Bhubaneswar</div><div class="edu-det">B.Tech · CS · 8.25 CGPA</div></div>
+          <div class="edu-row rev"><div class="edu-yr">2021–22</div><div class="edu-name">Mary Gardiners Convent</div><div class="edu-det">12th Standard · 75.2%</div></div>
+          <div class="edu-row rev"><div class="edu-yr">2019–20</div><div class="edu-name">KV AMC Lucknow</div><div class="edu-det">10th Standard · 92.8%</div></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- SKILLS -->
-<section id="skills" class="section-grad">
+<section id="skills" class="sec sec-cosmic">
   <div class="container">
-    <div class="section-eyebrow rev">02 — Skills</div>
-    <h2 class="section-title rev">What I work with</h2>
-    <div class="skills-bento">
-      <div class="bento-card bento-wide rev" data-glow="blue">
-        <div class="bento-label">⚙️ Programming</div>
-        <div class="bento-pills"><span>Java</span><span>Python</span><span>C</span><span>JavaScript</span><span>SQL</span></div>
-      </div>
-      <div class="bento-card rev" data-glow="teal">
-        <div class="bento-label">☁️ Cloud & Tools</div>
-        <div class="bento-pills"><span>AWS</span><span>Git</span><span>Postman</span><span>OpenCV</span><span>Jira</span></div>
-      </div>
-      <div class="bento-card rev" data-glow="purple">
-        <div class="bento-label">🌐 Web</div>
-        <div class="bento-pills"><span>HTML</span><span>CSS</span><span>NodeJS</span></div>
-      </div>
-      <div class="bento-card rev" data-glow="amber">
-        <div class="bento-label">📊 Product</div>
-        <div class="bento-pills"><span>Agile/Scrum</span><span>Roadmap Planning</span><span>KPI Tracking</span><span>A/B Testing</span><span>MVP Dev</span></div>
-      </div>
-      <div class="bento-card rev" data-glow="rose">
-        <div class="bento-label">🗄️ Databases</div>
-        <div class="bento-pills"><span>MySQL</span><span>Oracle</span><span>SQL</span></div>
-      </div>
-      <div class="bento-card bento-wide rev" data-glow="green">
-        <div class="bento-label">🤝 Leadership</div>
-        <div class="bento-pills"><span>Stakeholder Mgmt</span><span>Sprint Planning</span><span>Risk Assessment</span><span>OKR Facilitation</span><span>Cross-functional Teams</span></div>
-      </div>
+    <div class="eyebrow rev">02 — Skills</div>
+    <h2 class="sec-title rev">What I work with</h2>
+    <div class="skills-constellation rev">
+      <canvas id="skillsCanvas"></canvas>
     </div>
   </div>
 </section>
 
 <!-- PROJECTS -->
-<section id="projects" class="section-dark">
+<section id="projects" class="sec sec-dark">
   <div class="container">
-    <div class="section-eyebrow rev">03 — Projects</div>
-    <h2 class="section-title rev">Things I've built</h2>
-
-    <div class="proj-showcase">
+    <div class="eyebrow rev">03 — Projects</div>
+    <h2 class="sec-title rev">Things I've built</h2>
+    <div class="proj-grid">
       <div class="proj-item rev">
-        <div class="proj-visual">
-          <canvas class="proj-canvas" data-proj="0"></canvas>
-          <div class="proj-num-big">01</div>
+        <div class="proj-screen">
+          <canvas id="p0"></canvas>
+          <div class="proj-n-big">01</div>
         </div>
-        <div class="proj-info">
-          <div class="proj-meta"><span class="proj-year">2025</span><a href="https://github.com/Adityakris1/basic_fake_review_detector" target="_blank" class="proj-link-btn">View on GitHub ↗</a></div>
+        <div>
+          <div class="proj-meta"><span class="proj-yr">2025</span><a href="https://github.com/Adityakris1/basic_fake_review_detector" target="_blank" class="proj-cta">GitHub ↗</a></div>
           <h3 class="proj-title">Fake Reviews Detection</h3>
-          <p class="proj-body">Spearheaded a team of four to deliver an ML system classifying fake e-commerce reviews at <strong>85% accuracy</strong> across 40,000+ data points. Led product definition, sprint planning, and cross-functional coordination.</p>
+          <p class="proj-body">Spearheaded a team of four to deliver an ML system classifying fake e-commerce reviews at <strong>85% accuracy</strong> across 40,000+ data points. Led product definition, sprint planning, and cross-functional coordination throughout.</p>
           <div class="proj-tags"><span>Machine Learning</span><span>Python</span><span>NLP</span><span>Data Analysis</span><span>Agile</span></div>
-          <div class="proj-numbers">
-            <div class="pn"><span class="pn-v">40K+</span><span class="pn-k">Data Points</span></div>
-            <div class="pn"><span class="pn-v">85%</span><span class="pn-k">Accuracy</span></div>
-            <div class="pn"><span class="pn-v">4</span><span class="pn-k">Team Members</span></div>
-          </div>
+          <div class="proj-nums"><div><span class="pn-v">40K+</span><span class="pn-k">Data Points</span></div><div><span class="pn-v">85%</span><span class="pn-k">Accuracy</span></div><div><span class="pn-v">4</span><span class="pn-k">Members Led</span></div></div>
         </div>
       </div>
-
       <div class="proj-item rev">
-        <div class="proj-visual">
-          <canvas class="proj-canvas" data-proj="1"></canvas>
-          <div class="proj-num-big">02</div>
+        <div class="proj-screen">
+          <canvas id="p1"></canvas>
+          <div class="proj-n-big">02</div>
         </div>
-        <div class="proj-info">
-          <div class="proj-meta"><span class="proj-year">2025</span><a href="https://github.com/Adityakris1/Hand_Scale" target="_blank" class="proj-link-btn">View on GitHub ↗</a></div>
+        <div>
+          <div class="proj-meta"><span class="proj-yr">2025</span><a href="https://github.com/Adityakris1/Hand_Scale" target="_blank" class="proj-cta">GitHub ↗</a></div>
           <h3 class="proj-title">Hand Tracking MIDI Chord System</h3>
-          <p class="proj-body">Independently built a <strong>hand-gesture-controlled MIDI synthesiser</strong>. Real-time computer vision integrated with MIDI output — 2 UX iteration cycles, reducing hardware dependency for musicians.</p>
-          <div class="proj-tags"><span>Computer Vision</span><span>OpenCV</span><span>Python</span><span>MIDI</span><span>UX</span></div>
-          <div class="proj-numbers">
-            <div class="pn"><span class="pn-v">Real-time</span><span class="pn-k">Tracking</span></div>
-            <div class="pn"><span class="pn-v">2</span><span class="pn-k">UX Cycles</span></div>
-            <div class="pn"><span class="pn-v">Zero</span><span class="pn-k">Hardware Deps</span></div>
-          </div>
+          <p class="proj-body">Independently scoped, built, and iterated a <strong>hand-gesture-controlled MIDI synthesiser</strong> prototype. Real-time computer vision + MIDI output. 2 UX cycles — measurable reduction in hardware dependency for musicians.</p>
+          <div class="proj-tags"><span>Computer Vision</span><span>OpenCV</span><span>Python</span><span>MIDI</span><span>UX Design</span></div>
+          <div class="proj-nums"><div><span class="pn-v">Real-time</span><span class="pn-k">Tracking</span></div><div><span class="pn-v">2</span><span class="pn-k">UX Cycles</span></div><div><span class="pn-v">Zero</span><span class="pn-k">Hardware Deps</span></div></div>
         </div>
       </div>
-
       <div class="proj-item rev">
-        <div class="proj-visual">
-          <canvas class="proj-canvas" data-proj="2"></canvas>
-          <div class="proj-num-big">03</div>
+        <div class="proj-screen">
+          <canvas id="p2"></canvas>
+          <div class="proj-n-big">03</div>
         </div>
-        <div class="proj-info">
-          <div class="proj-meta"><span class="proj-year">Oct–Dec 2024</span><span class="proj-badge">AWS Certified</span></div>
+        <div>
+          <div class="proj-meta"><span class="proj-yr">Oct–Dec 2024</span><span class="proj-badge">AWS Certified</span></div>
           <h3 class="proj-title">AWS Virtual Internship</h3>
-          <p class="proj-body">Designed and deployed <strong>scalable cloud infrastructure</strong> using AWS. Configured EC2, S3, IAM — automated workflows with AWS CLI and SDKs. Production-grade cloud engineering fundamentals.</p>
-          <div class="proj-tags"><span>AWS EC2</span><span>S3</span><span>IAM</span><span>AWS CLI</span><span>Cloud Architecture</span></div>
-          <div class="proj-numbers">
-            <div class="pn"><span class="pn-v">AWS</span><span class="pn-k">Certified</span></div>
-            <div class="pn"><span class="pn-v">Scalable</span><span class="pn-k">Infrastructure</span></div>
-            <div class="pn"><span class="pn-v">Auto</span><span class="pn-k">Workflows</span></div>
-          </div>
+          <p class="proj-body">Designed and deployed <strong>scalable cloud infrastructure</strong>. Configured EC2, S3, IAM — automated workflows using AWS CLI and SDKs. Production-grade cloud engineering fundamentals demonstrated.</p>
+          <div class="proj-tags"><span>AWS EC2</span><span>S3</span><span>IAM</span><span>AWS CLI</span><span>Cloud Arch.</span></div>
+          <div class="proj-nums"><div><span class="pn-v">AWS</span><span class="pn-k">Certified</span></div><div><span class="pn-v">Scalable</span><span class="pn-k">Infra</span></div><div><span class="pn-v">Auto</span><span class="pn-k">Workflows</span></div></div>
         </div>
       </div>
     </div>
@@ -246,53 +412,26 @@
 </section>
 
 <!-- EXPERIENCE -->
-<section id="experience" class="section-light">
+<section id="experience" class="sec sec-light">
   <div class="container">
-    <div class="section-eyebrow dark rev">04 — Experience & Recognition</div>
-    <h2 class="section-title dark rev">Where I've worked</h2>
+    <div class="eyebrow dk rev">04 — Experience & Recognition</div>
+    <h2 class="sec-title dk rev">Where I've worked</h2>
     <div class="exp-grid">
-      <div class="exp-timeline">
-        <div class="exp-item rev">
-          <div class="exp-dot"></div>
-          <div class="exp-content">
-            <div class="exp-date">Dec 2025 – Present</div>
-            <div class="exp-company">Accenture</div>
-            <div class="exp-role">Associate Software Engineer</div>
-            <p class="exp-body">Selected through competitive campus recruitment. Industrial onboarding: Java, SQL, AWS, Generative AI, DevOps, CI/CD, and Agile/DevSecOps.</p>
-            <div class="exp-tags"><span>Java</span><span>SQL</span><span>AWS</span><span>Gen AI</span><span>CI/CD</span></div>
-          </div>
-        </div>
-        <div class="exp-item rev">
-          <div class="exp-dot"></div>
-          <div class="exp-content">
-            <div class="exp-date">KIIT</div>
-            <div class="exp-company">Dramatics Society of KIIT</div>
-            <div class="exp-role">Lead</div>
-            <p class="exp-body">Led 20-member team to 2nd place at IIT Kharagpur Spring Fest among 100+ competing teams.</p>
-            <div class="exp-tags"><span>Leadership</span><span>IIT KGP 🥈</span></div>
-          </div>
-        </div>
-        <div class="exp-item rev">
-          <div class="exp-dot"></div>
-          <div class="exp-content">
-            <div class="exp-date">KIIT</div>
-            <div class="exp-company">KIIT NSS & Youth Red Cross</div>
-            <div class="exp-role">Member</div>
-            <p class="exp-body">Coordinated community outreach events, tracked volunteer hours for social impact initiatives.</p>
-            <div class="exp-tags"><span>Community</span><span>Outreach</span></div>
-          </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#8a7a50;margin-bottom:1.5rem" class="rev">Work & Volunteering</div>
+        <div class="exp-tl">
+          <div class="exp-item rev"><div class="exp-dot"></div><div class="exp-date">Dec 2025 – Present</div><div class="exp-co">Accenture</div><div class="exp-role">Associate Software Engineer</div><p class="exp-body">Selected via competitive campus recruitment. Industrial onboarding: Java, SQL, AWS, Generative AI, DevOps, CI/CD, Agile/DevSecOps.</p><div class="exp-tags"><span>Java</span><span>SQL</span><span>AWS</span><span>Gen AI</span><span>CI/CD</span></div></div>
+          <div class="exp-item rev"><div class="exp-dot"></div><div class="exp-date">KIIT</div><div class="exp-co">Dramatics Society of KIIT</div><div class="exp-role">Lead</div><p class="exp-body">Led 20-member team to 2nd place at IIT Kharagpur Spring Fest — 100+ competing teams. Risk assessment and deadline management.</p><div class="exp-tags"><span>Leadership</span><span>IIT KGP 🥈</span></div></div>
+          <div class="exp-item rev"><div class="exp-dot"></div><div class="exp-date">KIIT</div><div class="exp-co">KIIT NSS & Youth Red Cross</div><div class="exp-role">Member</div><p class="exp-body">Coordinated community outreach events, tracked volunteer hours for social impact initiatives.</p><div class="exp-tags"><span>Community</span><span>Outreach</span></div></div>
         </div>
       </div>
-      <div class="award-block">
-        <div class="award-mega rev">
-          <div class="award-mega-glow"></div>
-          <div class="award-mega-top">
-            <span class="award-mega-icon">🏆</span>
-            <div class="award-mega-title">INSPIRE Award</div>
-            <div class="award-mega-money">₹10,000</div>
-          </div>
-          <div class="award-mega-org">Dept. of Science &amp; Technology · Govt. of India</div>
-          <p class="award-mega-body">Nationally recognised under the Innovation in Science Pursuit for Inspired Research scheme. Demonstrated ability to identify a problem, prototype a solution, and present to an expert government evaluation panel.</p>
+      <div>
+        <div style="font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#8a7a50;margin-bottom:1.5rem" class="rev">Recognition</div>
+        <div class="award-xl rev">
+          <div class="aw-glow"></div>
+          <div class="aw-top"><span class="aw-icon">🏆</span><div><div class="aw-name">INSPIRE Award</div></div><div class="aw-money">₹10,000</div></div>
+          <div class="aw-org">Dept. of Science &amp; Technology · Govt. of India</div>
+          <p class="aw-body">Nationally recognised under the Innovation in Science Pursuit for Inspired Research (INSPIRE) scheme. Demonstrated ability to identify a problem, prototype a solution, and present findings to an expert government evaluation panel.</p>
         </div>
       </div>
     </div>
@@ -300,92 +439,54 @@
 </section>
 
 <!-- CERTIFICATIONS -->
-<section id="certifications" class="section-dark">
+<section id="certifications" class="sec sec-mid">
   <div class="container">
-    <div class="section-eyebrow rev">05 — Certifications</div>
-    <h2 class="section-title rev">Credentials &amp; learning</h2>
-
-    <div class="cert-group-title rev">📋 Project Management · <span>Google · Sep 2025</span></div>
-    <div class="cert-row cert-row-3">
-      <a href="https://www.credly.com/badges/OX4XCi0HDG8XC" target="_blank" class="cert-pill rev">
-        <div class="cert-pill-issuer">Google</div>
-        <div class="cert-pill-name">Foundations of Project Management</div>
-        <div class="cert-pill-id">OX4XCi0HDG8XC</div>
-        <div class="cert-pill-arr">↗</div>
-      </a>
-      <a href="https://www.credly.com/badges/V80FTS2OD019" target="_blank" class="cert-pill rev">
-        <div class="cert-pill-issuer">Google</div>
-        <div class="cert-pill-name">Project Initiation: Starting a Successful Project</div>
-        <div class="cert-pill-id">V80FTS2OD019</div>
-        <div class="cert-pill-arr">↗</div>
-      </a>
-      <a href="https://www.credly.com/badges/0JMS5FYAG2EE" target="_blank" class="cert-pill rev">
-        <div class="cert-pill-issuer">Google</div>
-        <div class="cert-pill-name">Project Planning: Putting It All Together</div>
-        <div class="cert-pill-id">0JMS5FYAG2EE</div>
-        <div class="cert-pill-arr">↗</div>
-      </a>
+    <div class="eyebrow rev">05 — Certifications</div>
+    <h2 class="sec-title rev">Credentials &amp; learning</h2>
+    <div class="cg-title rev">📋 Project Management <span>· Google · Sep 2025</span></div>
+    <div class="cert-grid cert-3">
+      <a href="https://www.credly.com/badges/OX4XCi0HDG8XC" target="_blank" class="cert-card cert-feat rev"><div class="cc-iss">Google</div><div class="cc-name">Foundations of Project Management</div><div class="cc-id">OX4XCi0HDG8XC</div><div class="cc-arr">↗</div></a>
+      <a href="https://www.credly.com/badges/V80FTS2OD019" target="_blank" class="cert-card cert-feat rev"><div class="cc-iss">Google</div><div class="cc-name">Project Initiation: Starting a Successful Project</div><div class="cc-id">V80FTS2OD019</div><div class="cc-arr">↗</div></a>
+      <a href="https://www.credly.com/badges/0JMS5FYAG2EE" target="_blank" class="cert-card cert-feat rev"><div class="cc-iss">Google</div><div class="cc-name">Project Planning: Putting It All Together</div><div class="cc-id">0JMS5FYAG2EE</div><div class="cc-arr">↗</div></a>
     </div>
-
-    <div class="cert-group-title rev">⚙️ Engineering & AI · <span>Microsoft · LinkedIn · AWS</span></div>
-    <div class="cert-row cert-row-2">
-      <a href="https://www.linkedin.com/learning/certificates/11f8246d089cf8b50c54cbefe406425e678aa99b02a921b04a689a4524cf4cff" target="_blank" class="cert-pill rev"><div class="cert-pill-issuer">Microsoft & LinkedIn</div><div class="cert-pill-name">Career Essentials in Software Development</div><div class="cert-pill-arr">↗</div></a>
-      <a href="https://www.linkedin.com/learning/certificates/70e7ab92ec1138fb73a4e5c4bb9346fb107e577d6fc93661701520a917b63820" target="_blank" class="cert-pill rev"><div class="cert-pill-issuer">Microsoft & LinkedIn</div><div class="cert-pill-name">Career Essentials in Generative AI</div><div class="cert-pill-arr">↗</div></a>
-      <a href="https://www.linkedin.com/learning/certificates/7f8a617c507661fcbbbac4306a75b13027269f9d61b4cb884535db2a79a98fc6" target="_blank" class="cert-pill rev"><div class="cert-pill-issuer">Microsoft & LinkedIn</div><div class="cert-pill-name">Career Essentials in Data Analysis</div><div class="cert-pill-arr">↗</div></a>
-      <a href="https://www.linkedin.com/in/aditya-krishna1/details/certifications/" target="_blank" class="cert-pill rev"><div class="cert-pill-issuer">Amazon Web Services · Dec 2024</div><div class="cert-pill-name">AWS Academy Graduate — Cloud Foundations</div><div class="cert-pill-arr">↗</div></a>
+    <div class="cg-title rev">⚙️ Engineering & AI <span>· Microsoft · LinkedIn · AWS</span></div>
+    <div class="cert-grid cert-2">
+      <a href="https://www.linkedin.com/learning/certificates/11f8246d089cf8b50c54cbefe406425e678aa99b02a921b04a689a4524cf4cff" target="_blank" class="cert-card rev"><div class="cc-iss">Microsoft & LinkedIn</div><div class="cc-name">Career Essentials in Software Development</div><div class="cc-arr">↗</div></a>
+      <a href="https://www.linkedin.com/learning/certificates/70e7ab92ec1138fb73a4e5c4bb9346fb107e577d6fc93661701520a917b63820" target="_blank" class="cert-card rev"><div class="cc-iss">Microsoft & LinkedIn</div><div class="cc-name">Career Essentials in Generative AI</div><div class="cc-arr">↗</div></a>
+      <a href="https://www.linkedin.com/learning/certificates/7f8a617c507661fcbbbac4306a75b13027269f9d61b4cb884535db2a79a98fc6" target="_blank" class="cert-card rev"><div class="cc-iss">Microsoft & LinkedIn</div><div class="cc-name">Career Essentials in Data Analysis</div><div class="cc-arr">↗</div></a>
+      <a href="https://www.linkedin.com/in/aditya-krishna1/details/certifications/" target="_blank" class="cert-card rev"><div class="cc-iss">Amazon Web Services · Dec 2024</div><div class="cc-name">AWS Academy Graduate — Cloud Foundations</div><div class="cc-arr">↗</div></a>
     </div>
-
-    <div class="cert-group-title rev">🧠 Product Thinking & Ethics · <span>Coursera · Feb 2025</span></div>
-    <div class="cert-row cert-row-3">
-      <a href="https://www.linkedin.com/in/aditya-krishna1/details/certifications/" target="_blank" class="cert-pill rev"><div class="cert-pill-issuer">Univ. of Colorado Boulder · Coursera</div><div class="cert-pill-name">Ethical Decision Making for Success in the Tech Industry</div><div class="cert-pill-arr">↗</div></a>
-      <a href="https://www.coursera.org/account/accomplishments/verify/E5BX0JSQYK4B" target="_blank" class="cert-pill rev"><div class="cert-pill-issuer">London Business School · Coursera</div><div class="cert-pill-name">Business for Good: Fundamentals of Corporate Responsibility</div><div class="cert-pill-arr">↗</div></a>
-      <a href="https://www.linkedin.com/in/aditya-krishna1/details/certifications/" target="_blank" class="cert-pill rev"><div class="cert-pill-issuer">Coursera · Feb 2025</div><div class="cert-pill-name">Corporate Governance</div><div class="cert-pill-arr">↗</div></a>
+    <div class="cg-title rev">🧠 Product Thinking & Ethics <span>· Coursera · Feb 2025</span></div>
+    <div class="cert-grid cert-3">
+      <a href="https://www.linkedin.com/in/aditya-krishna1/details/certifications/" target="_blank" class="cert-card rev"><div class="cc-iss">Univ. of Colorado Boulder · Coursera</div><div class="cc-name">Ethical Decision Making for Success in Tech</div><div class="cc-arr">↗</div></a>
+      <a href="https://www.coursera.org/account/accomplishments/verify/E5BX0JSQYK4B" target="_blank" class="cert-card rev"><div class="cc-iss">London Business School · Coursera</div><div class="cc-name">Business for Good: Corporate Responsibility</div><div class="cc-arr">↗</div></a>
+      <a href="https://www.linkedin.com/in/aditya-krishna1/details/certifications/" target="_blank" class="cert-card rev"><div class="cc-iss">Coursera · Feb 2025</div><div class="cc-name">Corporate Governance</div><div class="cc-arr">↗</div></a>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section id="contact" class="section-contact">
+<section id="contact" class="sec sec-contact">
   <canvas id="contactCanvas"></canvas>
   <div class="container contact-inner">
-    <div class="section-eyebrow rev" style="color:rgba(255,255,255,.4)">06 — Contact</div>
-    <h2 class="contact-big rev">
-      Let's build<br>
-      <em>something</em><br>
-      great.
-    </h2>
+    <div class="eyebrow rev" style="color:rgba(255,255,255,.3)">06 — Contact</div>
+    <h2 class="contact-h1 rev">Let's build<br><em>something</em><br>great.</h2>
     <p class="contact-sub rev">Open to product and engineering based roles.</p>
-    <div class="contact-cards rev">
-      <a href="mailto:adityakrishna038@gmail.com" class="contact-card" data-cursor="Email">
-        <div class="cc-icon">📧</div>
-        <div class="cc-label">Email</div>
-        <div class="cc-val">adityakrishna038@gmail.com</div>
-      </a>
-      <a href="tel:+917985930166" class="contact-card" data-cursor="Call">
-        <div class="cc-icon">📱</div>
-        <div class="cc-label">Phone</div>
-        <div class="cc-val">+91 79859 30166</div>
-      </a>
-      <a href="https://www.linkedin.com/in/aditya-krishna1/" target="_blank" class="contact-card" data-cursor="Connect">
-        <div class="cc-icon">💼</div>
-        <div class="cc-label">LinkedIn</div>
-        <div class="cc-val">aditya-krishna1</div>
-      </a>
-      <a href="https://github.com/Adityakris1" target="_blank" class="contact-card" data-cursor="Code">
-        <div class="cc-icon">🐙</div>
-        <div class="cc-label">GitHub</div>
-        <div class="cc-val">Adityakris1</div>
-      </a>
+    <div class="c-cards rev">
+      <a href="mailto:adityakrishna038@gmail.com" class="c-card"><div class="cc-ico">📧</div><div><div class="cc-lbl">Email</div><div class="cc-val">adityakrishna038@gmail.com</div></div></a>
+      <a href="tel:+917985930166" class="c-card"><div class="cc-ico">📱</div><div><div class="cc-lbl">Phone</div><div class="cc-val">+91 79859 30166</div></div></a>
+      <a href="https://www.linkedin.com/in/aditya-krishna1/" target="_blank" class="c-card"><div class="cc-ico">💼</div><div><div class="cc-lbl">LinkedIn</div><div class="cc-val">aditya-krishna1</div></div></a>
+      <a href="https://github.com/Adityakris1" target="_blank" class="c-card"><div class="cc-ico">🐙</div><div><div class="cc-lbl">GitHub</div><div class="cc-val">Adityakris1</div></div></a>
     </div>
     <button class="btn-wa rev" id="waBtn">💬 &nbsp;WhatsApp Message</button>
   </div>
 </section>
 
 <footer>
-  <div class="footer-inner">
-    <span class="f-logo">AK<span>.</span></span>
+  <div class="fi">
+    <span class="flogo">AK<span>.</span></span>
     <span>© 2025 Aditya Krishna · Bengaluru, India</span>
-    <span>Designed with obsession.</span>
+    <span>Designed with obsession. Built with precision.</span>
   </div>
 </footer>
 
