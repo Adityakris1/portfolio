@@ -1,19 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aditya Krishna — Engineer & Builder</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Aditya Krishna</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-<div class="noise"></div>
 
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-bg"></div>
+  <div class="loader-content">
+    <div class="loader-name">
+      <span class="ln-a">A</span><span class="ln-k">K</span>
+    </div>
+    <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
+    <div class="loader-pct" id="loaderPct">0</div>
+    <div class="loader-tagline">Engineer · Builder · Creator</div>
+  </div>
+</div>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor">
+  <div class="cursor-dot"></div>
+  <div class="cursor-text" id="cursorText"></div>
+</div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
 <nav id="nav">
   <a href="#hero" class="nav-logo">AK<span>.</span></a>
   <ul class="nav-links">
@@ -24,7 +42,7 @@
     <li><a href="#certifications">Certs</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="#contact" class="nav-cta">Let's Talk →</a>
+  <a href="#contact" class="nav-cta" data-cursor="Talk">Let's Talk →</a>
   <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
@@ -35,112 +53,192 @@
 
 <!-- HERO -->
 <section id="hero">
-  <canvas id="heroCanvas"></canvas>
-  <div class="hero-content">
-    <div class="hero-tag rev"><span class="pulse-dot"></span>Open to opportunities</div>
-    <h1 class="hero-title">
-      <span class="line-block"><span class="rev anim-word">Aditya</span></span>
-      <span class="line-block gold-line"><em class="rev anim-word">Krishna</em></span>
+  <!-- WebGL liquid canvas -->
+  <canvas id="liquidCanvas"></canvas>
+  <!-- Three.js 3D canvas -->
+  <canvas id="threeCanvas"></canvas>
+
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <span class="pulse-dot"></span>
+      <span class="hero-eyebrow-text">Open to opportunities</span>
+      <span class="hero-eyebrow-loc">📍 Bengaluru · Accenture ASE · KIIT CS '26</span>
+    </div>
+    <h1 class="hero-h1">
+      <span class="hero-line hero-line-1">
+        <span class="hero-word" data-text="Aditya">Aditya</span>
+      </span>
+      <span class="hero-line hero-line-2">
+        <em class="hero-word" data-text="Krishna">Krishna</em>
+      </span>
     </h1>
-    <p class="hero-role rev">Software Engineer &nbsp;·&nbsp; Product Thinker &nbsp;·&nbsp; Builder</p>
-    <div class="hero-meta rev">
-      <span>📍 Bengaluru</span><span class="sep">·</span>
-      <span>@ Accenture</span><span class="sep">·</span>
-      <span>KIIT CS '26</span>
-    </div>
-    <div class="hero-btns rev">
-      <a href="#projects" class="btn-primary"><span>See My Work</span></a>
-      <a href="https://github.com/Adityakris1" target="_blank" class="btn-ghost">GitHub ↗</a>
-      <a href="https://www.linkedin.com/in/aditya-krishna1/" target="_blank" class="btn-ghost">LinkedIn ↗</a>
+    <p class="hero-sub">Software Engineer &nbsp;·&nbsp; Product Thinker &nbsp;·&nbsp; Builder</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-grad" data-cursor="Explore">
+        <span class="btn-grad-bg"></span>
+        <span class="btn-grad-text">Explore Work</span>
+      </a>
+      <a href="https://github.com/Adityakris1" target="_blank" class="btn-outline" data-cursor="GitHub">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/aditya-krishna1/" target="_blank" class="btn-outline" data-cursor="Connect">LinkedIn ↗</a>
     </div>
   </div>
-  <div class="drag-hint rev"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1"/><path d="M7 4v6M4 7h6" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>drag to rotate</div>
-  <div class="marquee-wrap">
-    <div class="marquee-track">
-      <span>Software Engineer</span><i>✦</i><span>ML Systems</span><i>✦</i><span>Product Management</span><i>✦</i><span>AWS Cloud</span><i>✦</i><span>INSPIRE Award</span><i>✦</i><span>Computer Vision</span><i>✦</i><span>Accenture</span><i>✦</i><span>KIIT</span><i>✦</i><span>Software Engineer</span><i>✦</i><span>ML Systems</span><i>✦</i><span>Product Management</span><i>✦</i><span>AWS Cloud</span><i>✦</i><span>INSPIRE Award</span><i>✦</i><span>Computer Vision</span><i>✦</i><span>Accenture</span><i>✦</i><span>KIIT</span><i>✦</i>
+
+  <!-- Floating 3D label -->
+  <div class="three-hint">drag · rotate · explore</div>
+
+  <!-- Kinetic marquee -->
+  <div class="marquee-strip">
+    <div class="marquee-inner">
+      <span>Software Engineer</span><span class="dot">◆</span>
+      <span>ML Systems</span><span class="dot">◆</span>
+      <span>Product Strategy</span><span class="dot">◆</span>
+      <span>AWS Cloud</span><span class="dot">◆</span>
+      <span>INSPIRE Award</span><span class="dot">◆</span>
+      <span>Computer Vision</span><span class="dot">◆</span>
+      <span>Accenture</span><span class="dot">◆</span>
+      <span>KIIT</span><span class="dot">◆</span>
+      <span>Software Engineer</span><span class="dot">◆</span>
+      <span>ML Systems</span><span class="dot">◆</span>
+      <span>Product Strategy</span><span class="dot">◆</span>
+      <span>AWS Cloud</span><span class="dot">◆</span>
+      <span>INSPIRE Award</span><span class="dot">◆</span>
+      <span>Computer Vision</span><span class="dot">◆</span>
+      <span>Accenture</span><span class="dot">◆</span>
+      <span>KIIT</span><span class="dot">◆</span>
     </div>
   </div>
-  <div class="scroll-cue"><span>scroll</span><div class="scroll-line"></div></div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+    <span>Scroll</span>
+  </div>
 </section>
 
 <!-- ABOUT -->
-<section id="about">
+<section id="about" class="section-dark">
   <div class="container">
-    <div class="sec-label rev">01 — About</div>
-    <h2 class="sec-title rev">CS undergrad who ships<br><em>ML-powered systems</em><br>at scale</h2>
-    <div class="about-grid">
+    <div class="section-eyebrow rev">01 — About</div>
+    <div class="about-layout">
       <div class="about-left">
-        <p class="body-text rev">Ambitious B.Tech CS student at KIIT with proven leadership in cross-functional teams, skilled in Agile/Scrum coordination, stakeholder communication, and progress tracking. Award-winning INSPIRE Scholar with hands-on experience organising deliverables and driving cloud-based projects to completion.</p>
-        <p class="body-text rev">Currently an <strong>Associate Software Engineer at Accenture</strong>, selected through competitive campus recruitment. Also an <strong>INSPIRE Award</strong> recipient — ₹10,000 from Dept. of Science &amp; Technology, Govt. of India.</p>
-        <div class="langs rev"><span>English</span><span>Hindi</span><span>Maithili</span><span>Marathi</span><span>Bengali</span></div>
+        <h2 class="section-giant rev">CS undergrad<br>who ships<br><em>ML systems</em><br>at scale</h2>
       </div>
       <div class="about-right">
-        <div class="stats-grid">
-          <div class="stat-card rev"><div class="stat-val" data-val="85" data-sfx="%">0%</div><div class="stat-lbl">Classifier accuracy</div></div>
-          <div class="stat-card rev"><div class="stat-val" data-val="40" data-sfx="K+">0K+</div><div class="stat-lbl">Reviews processed</div></div>
-          <div class="stat-card rev"><div class="stat-val" data-val="8.25" data-sfx="" data-dec="1">0</div><div class="stat-lbl">CGPA at KIIT</div></div>
-          <div class="stat-card rev"><div class="stat-val" data-val="100" data-sfx="+">0+</div><div class="stat-lbl">Teams at IIT KGP</div></div>
+        <p class="body-lg rev">Ambitious B.Tech CS student at KIIT with proven leadership in cross-functional teams, skilled in Agile/Scrum coordination, stakeholder communication, and progress tracking. Award-winning INSPIRE Scholar.</p>
+        <p class="body-lg rev">Currently an <strong>Associate Software Engineer at Accenture</strong> — selected through competitive campus recruitment. <strong>INSPIRE Award</strong> recipient — ₹10,000 from Dept. of Science &amp; Technology, Govt. of India.</p>
+        <div class="langs rev">
+          <span>English</span><span>Hindi</span><span>Maithili</span><span>Marathi</span><span>Bengali</span>
         </div>
-        <div class="edu-list">
-          <div class="edu-row rev"><div class="edu-info"><div class="edu-school">Kalinga Institute of Industrial Technology</div><div class="edu-deg">B.Tech · CS · Bhubaneswar</div></div><div class="edu-aside"><div class="edu-grade">8.25 CGPA</div><div class="edu-yr">2022–Present</div></div></div>
-          <div class="edu-row rev"><div class="edu-info"><div class="edu-school">Mary Gardiners Convent High School</div><div class="edu-deg">12th Standard · Lucknow</div></div><div class="edu-aside"><div class="edu-grade">75.2%</div><div class="edu-yr">2021–22</div></div></div>
-          <div class="edu-row rev"><div class="edu-info"><div class="edu-school">Kendriya Vidyalaya AMC</div><div class="edu-deg">10th Standard · Lucknow</div></div><div class="edu-aside"><div class="edu-grade">92.8%</div><div class="edu-yr">2019–20</div></div></div>
+        <div class="about-stats rev">
+          <div class="astat"><span class="astat-v" data-val="85" data-sfx="%">0%</span><span class="astat-k">Accuracy</span></div>
+          <div class="astat"><span class="astat-v" data-val="40" data-sfx="K+">0K+</span><span class="astat-k">Reviews</span></div>
+          <div class="astat"><span class="astat-v" data-val="8.25" data-sfx="" data-dec="1">0</span><span class="astat-k">CGPA</span></div>
+          <div class="astat"><span class="astat-v" data-val="100" data-sfx="+">0+</span><span class="astat-k">Teams Led</span></div>
         </div>
       </div>
+    </div>
+    <!-- Education strip -->
+    <div class="edu-strip rev">
+      <div class="edu-block"><div class="edu-yr">2022–Now</div><div class="edu-name">KIIT Bhubaneswar</div><div class="edu-detail">B.Tech CS · 8.25 CGPA</div></div>
+      <div class="edu-divider"></div>
+      <div class="edu-block"><div class="edu-yr">2021–22</div><div class="edu-name">Mary Gardiners</div><div class="edu-detail">12th · 75.2%</div></div>
+      <div class="edu-divider"></div>
+      <div class="edu-block"><div class="edu-yr">2019–20</div><div class="edu-name">KV AMC Lucknow</div><div class="edu-detail">10th · 92.8%</div></div>
     </div>
   </div>
 </section>
 
 <!-- SKILLS -->
-<section id="skills">
+<section id="skills" class="section-grad">
   <div class="container">
-    <div class="sec-label rev">02 — Skills</div>
-    <h2 class="sec-title rev">What I work with</h2>
-    <div class="skills-grid">
-      <div class="skill-card rev"><div class="sk-glow"></div><div class="sk-icon">⚙️</div><div class="sk-cat">Programming</div><div class="sk-pills"><span>Java</span><span>Python</span><span>C</span><span>JavaScript</span><span>SQL</span></div></div>
-      <div class="skill-card rev"><div class="sk-glow"></div><div class="sk-icon">🌐</div><div class="sk-cat">Web</div><div class="sk-pills"><span>HTML</span><span>CSS</span><span>NodeJS</span></div></div>
-      <div class="skill-card rev"><div class="sk-glow"></div><div class="sk-icon">☁️</div><div class="sk-cat">Cloud & Tools</div><div class="sk-pills"><span>AWS</span><span>Git</span><span>Postman</span><span>OpenCV</span><span>Jira</span></div></div>
-      <div class="skill-card rev"><div class="sk-glow"></div><div class="sk-icon">🗄️</div><div class="sk-cat">Databases</div><div class="sk-pills"><span>MySQL</span><span>Oracle</span><span>SQL</span></div></div>
-      <div class="skill-card rev"><div class="sk-glow"></div><div class="sk-icon">📊</div><div class="sk-cat">Product</div><div class="sk-pills"><span>Agile/Scrum</span><span>Roadmap Planning</span><span>KPI Tracking</span><span>A/B Testing</span><span>MVP Dev</span></div></div>
-      <div class="skill-card rev"><div class="sk-glow"></div><div class="sk-icon">🤝</div><div class="sk-cat">Leadership</div><div class="sk-pills"><span>Stakeholder Mgmt</span><span>Sprint Planning</span><span>Risk Assessment</span><span>OKR Facilitation</span></div></div>
+    <div class="section-eyebrow rev">02 — Skills</div>
+    <h2 class="section-title rev">What I work with</h2>
+    <div class="skills-bento">
+      <div class="bento-card bento-wide rev" data-glow="blue">
+        <div class="bento-label">⚙️ Programming</div>
+        <div class="bento-pills"><span>Java</span><span>Python</span><span>C</span><span>JavaScript</span><span>SQL</span></div>
+      </div>
+      <div class="bento-card rev" data-glow="teal">
+        <div class="bento-label">☁️ Cloud & Tools</div>
+        <div class="bento-pills"><span>AWS</span><span>Git</span><span>Postman</span><span>OpenCV</span><span>Jira</span></div>
+      </div>
+      <div class="bento-card rev" data-glow="purple">
+        <div class="bento-label">🌐 Web</div>
+        <div class="bento-pills"><span>HTML</span><span>CSS</span><span>NodeJS</span></div>
+      </div>
+      <div class="bento-card rev" data-glow="amber">
+        <div class="bento-label">📊 Product</div>
+        <div class="bento-pills"><span>Agile/Scrum</span><span>Roadmap Planning</span><span>KPI Tracking</span><span>A/B Testing</span><span>MVP Dev</span></div>
+      </div>
+      <div class="bento-card rev" data-glow="rose">
+        <div class="bento-label">🗄️ Databases</div>
+        <div class="bento-pills"><span>MySQL</span><span>Oracle</span><span>SQL</span></div>
+      </div>
+      <div class="bento-card bento-wide rev" data-glow="green">
+        <div class="bento-label">🤝 Leadership</div>
+        <div class="bento-pills"><span>Stakeholder Mgmt</span><span>Sprint Planning</span><span>Risk Assessment</span><span>OKR Facilitation</span><span>Cross-functional Teams</span></div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- PROJECTS -->
-<section id="projects">
+<section id="projects" class="section-dark">
   <div class="container">
-    <div class="sec-label rev">03 — Projects</div>
-    <h2 class="sec-title rev">Things I've built</h2>
-    <div class="proj-list">
-      <div class="proj-card rev">
-        <div class="proj-card-shine"></div>
-        <div class="proj-num">01</div>
-        <div class="proj-body">
-          <div class="proj-top"><div><div class="proj-yr">2025</div><h3 class="proj-title">Fake Reviews Detection</h3></div><a href="https://github.com/Adityakris1/basic_fake_review_detector" target="_blank" class="proj-btn">View Project ↗</a></div>
-          <p class="proj-desc">Spearheaded a team of four to deliver an ML-based system for identifying fake e-commerce reviews. Managed timelines, task assignments, and stakeholder communication — classifying over <strong>40,000 reviews with 85% accuracy</strong>.</p>
-          <div class="proj-stack"><span>Machine Learning</span><span>Python</span><span>NLP</span><span>Data Analysis</span><span>Agile</span></div>
-          <div class="proj-metrics"><div class="pm"><span class="pm-v">40,000+</span><span class="pm-k">Reviews</span></div><div class="pm"><span class="pm-v">85%</span><span class="pm-k">Accuracy</span></div><div class="pm"><span class="pm-v">4</span><span class="pm-k">Team Members</span></div></div>
+    <div class="section-eyebrow rev">03 — Projects</div>
+    <h2 class="section-title rev">Things I've built</h2>
+
+    <div class="proj-showcase">
+      <div class="proj-item rev">
+        <div class="proj-visual">
+          <canvas class="proj-canvas" data-proj="0"></canvas>
+          <div class="proj-num-big">01</div>
+        </div>
+        <div class="proj-info">
+          <div class="proj-meta"><span class="proj-year">2025</span><a href="https://github.com/Adityakris1/basic_fake_review_detector" target="_blank" class="proj-link-btn">View on GitHub ↗</a></div>
+          <h3 class="proj-title">Fake Reviews Detection</h3>
+          <p class="proj-body">Spearheaded a team of four to deliver an ML system classifying fake e-commerce reviews at <strong>85% accuracy</strong> across 40,000+ data points. Led product definition, sprint planning, and cross-functional coordination.</p>
+          <div class="proj-tags"><span>Machine Learning</span><span>Python</span><span>NLP</span><span>Data Analysis</span><span>Agile</span></div>
+          <div class="proj-numbers">
+            <div class="pn"><span class="pn-v">40K+</span><span class="pn-k">Data Points</span></div>
+            <div class="pn"><span class="pn-v">85%</span><span class="pn-k">Accuracy</span></div>
+            <div class="pn"><span class="pn-v">4</span><span class="pn-k">Team Members</span></div>
+          </div>
         </div>
       </div>
-      <div class="proj-card rev">
-        <div class="proj-card-shine"></div>
-        <div class="proj-num">02</div>
-        <div class="proj-body">
-          <div class="proj-top"><div><div class="proj-yr">2025</div><h3 class="proj-title">Hand Tracking MIDI Chord System</h3></div><a href="https://github.com/Adityakris1/Hand_Scale" target="_blank" class="proj-btn">View Project ↗</a></div>
-          <p class="proj-desc">Independently scoped, built, and iterated a <strong>hand-gesture-controlled MIDI synthesiser</strong> prototype. Delivered with 2 UX iteration cycles, reducing hardware dependency for musicians.</p>
-          <div class="proj-stack"><span>Computer Vision</span><span>OpenCV</span><span>Python</span><span>MIDI</span><span>UX Design</span></div>
-          <div class="proj-metrics"><div class="pm"><span class="pm-v">2</span><span class="pm-k">UX Cycles</span></div><div class="pm"><span class="pm-v">Real-time</span><span class="pm-k">Tracking</span></div><div class="pm"><span class="pm-v">Zero</span><span class="pm-k">Hardware Deps</span></div></div>
+
+      <div class="proj-item rev">
+        <div class="proj-visual">
+          <canvas class="proj-canvas" data-proj="1"></canvas>
+          <div class="proj-num-big">02</div>
+        </div>
+        <div class="proj-info">
+          <div class="proj-meta"><span class="proj-year">2025</span><a href="https://github.com/Adityakris1/Hand_Scale" target="_blank" class="proj-link-btn">View on GitHub ↗</a></div>
+          <h3 class="proj-title">Hand Tracking MIDI Chord System</h3>
+          <p class="proj-body">Independently built a <strong>hand-gesture-controlled MIDI synthesiser</strong>. Real-time computer vision integrated with MIDI output — 2 UX iteration cycles, reducing hardware dependency for musicians.</p>
+          <div class="proj-tags"><span>Computer Vision</span><span>OpenCV</span><span>Python</span><span>MIDI</span><span>UX</span></div>
+          <div class="proj-numbers">
+            <div class="pn"><span class="pn-v">Real-time</span><span class="pn-k">Tracking</span></div>
+            <div class="pn"><span class="pn-v">2</span><span class="pn-k">UX Cycles</span></div>
+            <div class="pn"><span class="pn-v">Zero</span><span class="pn-k">Hardware Deps</span></div>
+          </div>
         </div>
       </div>
-      <div class="proj-card rev">
-        <div class="proj-card-shine"></div>
-        <div class="proj-num">03</div>
-        <div class="proj-body">
-          <div class="proj-top"><div><div class="proj-yr">Oct–Dec 2024</div><h3 class="proj-title">AWS Virtual Internship</h3></div><span class="proj-badge-pill">AWS Certified</span></div>
-          <p class="proj-desc">Designed and deployed <strong>scalable cloud infrastructure</strong> using AWS services. Configured EC2, S3, IAM and automated workflows using AWS CLI and SDKs.</p>
-          <div class="proj-stack"><span>AWS EC2</span><span>S3</span><span>IAM</span><span>AWS CLI</span><span>Cloud Architecture</span></div>
-          <div class="proj-metrics"><div class="pm"><span class="pm-v">AWS</span><span class="pm-k">Certified</span></div><div class="pm"><span class="pm-v">Scalable</span><span class="pm-k">Infrastructure</span></div><div class="pm"><span class="pm-v">Auto</span><span class="pm-k">Workflows</span></div></div>
+
+      <div class="proj-item rev">
+        <div class="proj-visual">
+          <canvas class="proj-canvas" data-proj="2"></canvas>
+          <div class="proj-num-big">03</div>
+        </div>
+        <div class="proj-info">
+          <div class="proj-meta"><span class="proj-year">Oct–Dec 2024</span><span class="proj-badge">AWS Certified</span></div>
+          <h3 class="proj-title">AWS Virtual Internship</h3>
+          <p class="proj-body">Designed and deployed <strong>scalable cloud infrastructure</strong> using AWS. Configured EC2, S3, IAM — automated workflows with AWS CLI and SDKs. Production-grade cloud engineering fundamentals.</p>
+          <div class="proj-tags"><span>AWS EC2</span><span>S3</span><span>IAM</span><span>AWS CLI</span><span>Cloud Architecture</span></div>
+          <div class="proj-numbers">
+            <div class="pn"><span class="pn-v">AWS</span><span class="pn-k">Certified</span></div>
+            <div class="pn"><span class="pn-v">Scalable</span><span class="pn-k">Infrastructure</span></div>
+            <div class="pn"><span class="pn-v">Auto</span><span class="pn-k">Workflows</span></div>
+          </div>
         </div>
       </div>
     </div>
@@ -148,28 +246,53 @@
 </section>
 
 <!-- EXPERIENCE -->
-<section id="experience">
+<section id="experience" class="section-light">
   <div class="container">
-    <div class="sec-label rev">04 — Experience & Recognition</div>
-    <h2 class="sec-title rev">Where I've worked &amp; what I've earned</h2>
+    <div class="section-eyebrow dark rev">04 — Experience & Recognition</div>
+    <h2 class="section-title dark rev">Where I've worked</h2>
     <div class="exp-grid">
-      <div>
-        <div class="col-label rev">Work</div>
-        <div class="timeline">
-          <div class="t-item rev"><div class="t-dot"><div class="t-dot-inner"></div></div><div class="t-date">Dec 2025 – Present</div><div class="t-co">Accenture</div><div class="t-role">Associate Software Engineer</div><p class="t-p">Selected through competitive campus recruitment. Onboarding in Java, SQL, AWS, Generative AI, DevOps, CI/CD, and Agile/DevSecOps workflows.</p><div class="t-tags"><span>Java</span><span>SQL</span><span>AWS</span><span>Gen AI</span><span>CI/CD</span></div></div>
+      <div class="exp-timeline">
+        <div class="exp-item rev">
+          <div class="exp-dot"></div>
+          <div class="exp-content">
+            <div class="exp-date">Dec 2025 – Present</div>
+            <div class="exp-company">Accenture</div>
+            <div class="exp-role">Associate Software Engineer</div>
+            <p class="exp-body">Selected through competitive campus recruitment. Industrial onboarding: Java, SQL, AWS, Generative AI, DevOps, CI/CD, and Agile/DevSecOps.</p>
+            <div class="exp-tags"><span>Java</span><span>SQL</span><span>AWS</span><span>Gen AI</span><span>CI/CD</span></div>
+          </div>
         </div>
-        <div class="col-label rev" style="margin-top:2rem">Volunteering</div>
-        <div class="timeline">
-          <div class="t-item rev"><div class="t-dot"><div class="t-dot-inner"></div></div><div class="t-date">KIIT</div><div class="t-co">Dramatics Society of KIIT</div><div class="t-role">Lead</div><p class="t-p">Led 20-member team to 2nd place at IIT Kharagpur Spring Fest (100+ teams). Managed risk and timelines under tight deadlines.</p><div class="t-tags"><span>Leadership</span><span>IIT KGP 🥈</span></div></div>
-          <div class="t-item rev"><div class="t-dot"><div class="t-dot-inner"></div></div><div class="t-date">KIIT</div><div class="t-co">KIIT NSS & Youth Red Cross</div><div class="t-role">Member</div><p class="t-p">Coordinated community outreach events, tracked volunteer hours for social impact initiatives.</p><div class="t-tags"><span>Community</span><span>Outreach</span></div></div>
+        <div class="exp-item rev">
+          <div class="exp-dot"></div>
+          <div class="exp-content">
+            <div class="exp-date">KIIT</div>
+            <div class="exp-company">Dramatics Society of KIIT</div>
+            <div class="exp-role">Lead</div>
+            <p class="exp-body">Led 20-member team to 2nd place at IIT Kharagpur Spring Fest among 100+ competing teams.</p>
+            <div class="exp-tags"><span>Leadership</span><span>IIT KGP 🥈</span></div>
+          </div>
+        </div>
+        <div class="exp-item rev">
+          <div class="exp-dot"></div>
+          <div class="exp-content">
+            <div class="exp-date">KIIT</div>
+            <div class="exp-company">KIIT NSS & Youth Red Cross</div>
+            <div class="exp-role">Member</div>
+            <p class="exp-body">Coordinated community outreach events, tracked volunteer hours for social impact initiatives.</p>
+            <div class="exp-tags"><span>Community</span><span>Outreach</span></div>
+          </div>
         </div>
       </div>
-      <div>
-        <div class="col-label rev">Recognition</div>
-        <div class="award-card rev">
-          <div class="award-glow"></div>
-          <div class="award-hd"><span class="award-trophy">🏆</span><div><div class="award-name">INSPIRE Award</div><div class="award-sub">Dept. of Science &amp; Technology, Govt. of India</div></div><div class="award-amt">₹10,000<span>Grant</span></div></div>
-          <p class="award-body">Nationally recognised under the Innovation in Science Pursuit for Inspired Research (INSPIRE) scheme. Demonstrated ability to identify a problem, prototype a solution, and present findings to an expert government panel.</p>
+      <div class="award-block">
+        <div class="award-mega rev">
+          <div class="award-mega-glow"></div>
+          <div class="award-mega-top">
+            <span class="award-mega-icon">🏆</span>
+            <div class="award-mega-title">INSPIRE Award</div>
+            <div class="award-mega-money">₹10,000</div>
+          </div>
+          <div class="award-mega-org">Dept. of Science &amp; Technology · Govt. of India</div>
+          <p class="award-mega-body">Nationally recognised under the Innovation in Science Pursuit for Inspired Research scheme. Demonstrated ability to identify a problem, prototype a solution, and present to an expert government evaluation panel.</p>
         </div>
       </div>
     </div>
@@ -177,47 +300,84 @@
 </section>
 
 <!-- CERTIFICATIONS -->
-<section id="certifications">
+<section id="certifications" class="section-dark">
   <div class="container">
-    <div class="sec-label rev">05 — Certifications</div>
-    <h2 class="sec-title rev">Credentials &amp; learning</h2>
-    <div class="cert-group-label rev"><span class="cert-group-icon">📋</span>Project Management<span class="cert-group-badge">Google · Sep 2025</span></div>
-    <div class="certs-grid certs-grid-3">
-      <a href="https://www.credly.com/badges/OX4XCi0HDG8XC" target="_blank" class="cert-card cert-featured rev"><div class="cert-issuer">Google</div><div class="cert-name">Foundations of Project Management</div><div class="cert-id">OX4XCi0HDG8XC</div><div class="cert-arrow">↗</div></a>
-      <a href="https://www.credly.com/badges/V80FTS2OD019" target="_blank" class="cert-card cert-featured rev"><div class="cert-issuer">Google</div><div class="cert-name">Project Initiation: Starting a Successful Project</div><div class="cert-id">V80FTS2OD019</div><div class="cert-arrow">↗</div></a>
-      <a href="https://www.credly.com/badges/0JMS5FYAG2EE" target="_blank" class="cert-card cert-featured rev"><div class="cert-issuer">Google</div><div class="cert-name">Project Planning: Putting It All Together</div><div class="cert-id">0JMS5FYAG2EE</div><div class="cert-arrow">↗</div></a>
+    <div class="section-eyebrow rev">05 — Certifications</div>
+    <h2 class="section-title rev">Credentials &amp; learning</h2>
+
+    <div class="cert-group-title rev">📋 Project Management · <span>Google · Sep 2025</span></div>
+    <div class="cert-row cert-row-3">
+      <a href="https://www.credly.com/badges/OX4XCi0HDG8XC" target="_blank" class="cert-pill rev">
+        <div class="cert-pill-issuer">Google</div>
+        <div class="cert-pill-name">Foundations of Project Management</div>
+        <div class="cert-pill-id">OX4XCi0HDG8XC</div>
+        <div class="cert-pill-arr">↗</div>
+      </a>
+      <a href="https://www.credly.com/badges/V80FTS2OD019" target="_blank" class="cert-pill rev">
+        <div class="cert-pill-issuer">Google</div>
+        <div class="cert-pill-name">Project Initiation: Starting a Successful Project</div>
+        <div class="cert-pill-id">V80FTS2OD019</div>
+        <div class="cert-pill-arr">↗</div>
+      </a>
+      <a href="https://www.credly.com/badges/0JMS5FYAG2EE" target="_blank" class="cert-pill rev">
+        <div class="cert-pill-issuer">Google</div>
+        <div class="cert-pill-name">Project Planning: Putting It All Together</div>
+        <div class="cert-pill-id">0JMS5FYAG2EE</div>
+        <div class="cert-pill-arr">↗</div>
+      </a>
     </div>
-    <div class="cert-group-label rev"><span class="cert-group-icon">⚙️</span>Engineering & AI<span class="cert-group-badge">Microsoft · LinkedIn · AWS</span></div>
-    <div class="certs-grid">
-      <a href="https://www.linkedin.com/learning/certificates/11f8246d089cf8b50c54cbefe406425e678aa99b02a921b04a689a4524cf4cff" target="_blank" class="cert-card rev"><div class="cert-issuer">Microsoft &amp; LinkedIn</div><div class="cert-name">Career Essentials in Software Development</div><div class="cert-arrow">↗</div></a>
-      <a href="https://www.linkedin.com/learning/certificates/70e7ab92ec1138fb73a4e5c4bb9346fb107e577d6fc93661701520a917b63820" target="_blank" class="cert-card rev"><div class="cert-issuer">Microsoft &amp; LinkedIn</div><div class="cert-name">Career Essentials in Generative AI</div><div class="cert-arrow">↗</div></a>
-      <a href="https://www.linkedin.com/learning/certificates/7f8a617c507661fcbbbac4306a75b13027269f9d61b4cb884535db2a79a98fc6" target="_blank" class="cert-card rev"><div class="cert-issuer">Microsoft &amp; LinkedIn</div><div class="cert-name">Career Essentials in Data Analysis</div><div class="cert-arrow">↗</div></a>
-      <a href="https://www.linkedin.com/in/aditya-krishna1/details/certifications/" target="_blank" class="cert-card rev"><div class="cert-issuer">Amazon Web Services (AWS) · Dec 2024</div><div class="cert-name">AWS Academy Graduate — Cloud Foundations</div><div class="cert-arrow">↗</div></a>
+
+    <div class="cert-group-title rev">⚙️ Engineering & AI · <span>Microsoft · LinkedIn · AWS</span></div>
+    <div class="cert-row cert-row-2">
+      <a href="https://www.linkedin.com/learning/certificates/11f8246d089cf8b50c54cbefe406425e678aa99b02a921b04a689a4524cf4cff" target="_blank" class="cert-pill rev"><div class="cert-pill-issuer">Microsoft & LinkedIn</div><div class="cert-pill-name">Career Essentials in Software Development</div><div class="cert-pill-arr">↗</div></a>
+      <a href="https://www.linkedin.com/learning/certificates/70e7ab92ec1138fb73a4e5c4bb9346fb107e577d6fc93661701520a917b63820" target="_blank" class="cert-pill rev"><div class="cert-pill-issuer">Microsoft & LinkedIn</div><div class="cert-pill-name">Career Essentials in Generative AI</div><div class="cert-pill-arr">↗</div></a>
+      <a href="https://www.linkedin.com/learning/certificates/7f8a617c507661fcbbbac4306a75b13027269f9d61b4cb884535db2a79a98fc6" target="_blank" class="cert-pill rev"><div class="cert-pill-issuer">Microsoft & LinkedIn</div><div class="cert-pill-name">Career Essentials in Data Analysis</div><div class="cert-pill-arr">↗</div></a>
+      <a href="https://www.linkedin.com/in/aditya-krishna1/details/certifications/" target="_blank" class="cert-pill rev"><div class="cert-pill-issuer">Amazon Web Services · Dec 2024</div><div class="cert-pill-name">AWS Academy Graduate — Cloud Foundations</div><div class="cert-pill-arr">↗</div></a>
     </div>
-    <div class="cert-group-label rev"><span class="cert-group-icon">🧠</span>Product Thinking &amp; Ethics<span class="cert-group-badge">Univ. of Colorado · Coursera · Feb 2025</span></div>
-    <div class="certs-grid">
-      <a href="https://www.linkedin.com/in/aditya-krishna1/details/certifications/" target="_blank" class="cert-card rev"><div class="cert-issuer">University of Colorado Boulder · Coursera</div><div class="cert-name">Ethical Decision Making for Success in the Tech Industry</div><div class="cert-arrow">↗</div></a>
-      <a href="https://www.coursera.org/account/accomplishments/verify/E5BX0JSQYK4B" target="_blank" class="cert-card rev"><div class="cert-issuer">London Business School · Coursera</div><div class="cert-name">Business for Good: Fundamentals of Corporate Responsibility</div><div class="cert-arrow">↗</div></a>
-      <a href="https://www.linkedin.com/in/aditya-krishna1/details/certifications/" target="_blank" class="cert-card rev"><div class="cert-issuer">Coursera · Feb 2025</div><div class="cert-name">Corporate Governance</div><div class="cert-arrow">↗</div></a>
+
+    <div class="cert-group-title rev">🧠 Product Thinking & Ethics · <span>Coursera · Feb 2025</span></div>
+    <div class="cert-row cert-row-3">
+      <a href="https://www.linkedin.com/in/aditya-krishna1/details/certifications/" target="_blank" class="cert-pill rev"><div class="cert-pill-issuer">Univ. of Colorado Boulder · Coursera</div><div class="cert-pill-name">Ethical Decision Making for Success in the Tech Industry</div><div class="cert-pill-arr">↗</div></a>
+      <a href="https://www.coursera.org/account/accomplishments/verify/E5BX0JSQYK4B" target="_blank" class="cert-pill rev"><div class="cert-pill-issuer">London Business School · Coursera</div><div class="cert-pill-name">Business for Good: Fundamentals of Corporate Responsibility</div><div class="cert-pill-arr">↗</div></a>
+      <a href="https://www.linkedin.com/in/aditya-krishna1/details/certifications/" target="_blank" class="cert-pill rev"><div class="cert-pill-issuer">Coursera · Feb 2025</div><div class="cert-pill-name">Corporate Governance</div><div class="cert-pill-arr">↗</div></a>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section id="contact">
-  <div class="container">
-    <div class="contact-wrap">
-      <div class="sec-label rev">06 — Contact</div>
-      <h2 class="contact-h rev">Let's build<br><em>something great</em><br>together.</h2>
-      <p class="contact-sub rev">Open to product and engineering based roles.</p>
-      <div class="contact-grid rev">
-        <a href="mailto:adityakrishna038@gmail.com" class="c-card"><span class="c-icon">📧</span><div><div class="c-lbl">Email</div><div class="c-val">adityakrishna038@gmail.com</div></div></a>
-        <a href="tel:+917985930166" class="c-card"><span class="c-icon">📱</span><div><div class="c-lbl">Phone</div><div class="c-val">+91 79859 30166</div></div></a>
-        <a href="https://www.linkedin.com/in/aditya-krishna1/" target="_blank" class="c-card"><span class="c-icon">💼</span><div><div class="c-lbl">LinkedIn</div><div class="c-val">aditya-krishna1</div></div></a>
-        <a href="https://github.com/Adityakris1" target="_blank" class="c-card"><span class="c-icon">🐙</span><div><div class="c-lbl">GitHub</div><div class="c-val">Adityakris1</div></div></a>
-      </div>
-      <div class="wa-wrap rev"><button class="btn-wa" id="waBtn">💬 &nbsp;Send WhatsApp Message</button></div>
+<section id="contact" class="section-contact">
+  <canvas id="contactCanvas"></canvas>
+  <div class="container contact-inner">
+    <div class="section-eyebrow rev" style="color:rgba(255,255,255,.4)">06 — Contact</div>
+    <h2 class="contact-big rev">
+      Let's build<br>
+      <em>something</em><br>
+      great.
+    </h2>
+    <p class="contact-sub rev">Open to product and engineering based roles.</p>
+    <div class="contact-cards rev">
+      <a href="mailto:adityakrishna038@gmail.com" class="contact-card" data-cursor="Email">
+        <div class="cc-icon">📧</div>
+        <div class="cc-label">Email</div>
+        <div class="cc-val">adityakrishna038@gmail.com</div>
+      </a>
+      <a href="tel:+917985930166" class="contact-card" data-cursor="Call">
+        <div class="cc-icon">📱</div>
+        <div class="cc-label">Phone</div>
+        <div class="cc-val">+91 79859 30166</div>
+      </a>
+      <a href="https://www.linkedin.com/in/aditya-krishna1/" target="_blank" class="contact-card" data-cursor="Connect">
+        <div class="cc-icon">💼</div>
+        <div class="cc-label">LinkedIn</div>
+        <div class="cc-val">aditya-krishna1</div>
+      </a>
+      <a href="https://github.com/Adityakris1" target="_blank" class="contact-card" data-cursor="Code">
+        <div class="cc-icon">🐙</div>
+        <div class="cc-label">GitHub</div>
+        <div class="cc-val">Adityakris1</div>
+      </a>
     </div>
+    <button class="btn-wa rev" id="waBtn">💬 &nbsp;WhatsApp Message</button>
   </div>
 </section>
 
@@ -225,7 +385,7 @@
   <div class="footer-inner">
     <span class="f-logo">AK<span>.</span></span>
     <span>© 2025 Aditya Krishna · Bengaluru, India</span>
-    <span>Built with intention.</span>
+    <span>Designed with obsession.</span>
   </div>
 </footer>
 
