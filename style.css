@@ -395,7 +395,24 @@ nav.scrolled {
 
 /* ── CERTS ── */
 #certifications { padding:7rem 0; border-top:1px solid var(--brd); }
-.certs-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1.1rem; }
+
+.cert-group-label {
+  display:flex; align-items:center; gap:.75rem;
+  font-family:var(--mono); font-size:.68rem;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:var(--text); margin:3rem 0 1.1rem; font-weight:600;
+}
+.cert-group-label:first-of-type { margin-top:0; }
+.cert-group-icon { font-size:1rem; }
+.cert-group-badge {
+  margin-left:auto; font-size:.6rem; color:var(--muted);
+  font-weight:400; letter-spacing:.05em; text-transform:none;
+  border:1px solid var(--brd); padding:.22rem .75rem; border-radius:100px; white-space:nowrap;
+}
+
+.certs-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1.1rem; margin-bottom:.3rem; }
+.certs-grid-3 { grid-template-columns:repeat(3,1fr); }
+
 .cert-card {
   display:flex; flex-direction:column; gap:.5rem;
   background:var(--bg2); border:1px solid var(--brd);
@@ -404,13 +421,18 @@ nav.scrolled {
   position:relative;
 }
 .cert-card:hover { border-color:rgba(232,197,71,.3); transform:translateY(-4px); }
-.cert-issuer { font-family:var(--mono); font-size:.65rem; color:var(--gold); letter-spacing:.08em; }
-.cert-name { font-size:.95rem; font-weight:700; letter-spacing:-.025em; line-height:1.3; flex:1; }
+.cert-featured {
+  border-color:rgba(232,197,71,.2);
+  background:linear-gradient(135deg,rgba(232,197,71,.045),var(--bg2) 60%);
+}
+.cert-issuer { font-family:var(--mono); font-size:.62rem; color:var(--gold); letter-spacing:.08em; }
+.cert-name { font-size:.9rem; font-weight:700; letter-spacing:-.025em; line-height:1.3; flex:1; }
+.cert-id { font-family:var(--mono); font-size:.57rem; color:var(--dim); letter-spacing:.05em; }
 .cert-arrow {
-  position:absolute; top:1.5rem; right:1.5rem;
-  width:32px; height:32px; display:flex; align-items:center; justify-content:center;
+  position:absolute; top:1.4rem; right:1.4rem;
+  width:30px; height:30px; display:flex; align-items:center; justify-content:center;
   border:1px solid var(--brd); border-radius:50%;
-  font-size:.9rem; color:var(--muted);
+  font-size:.85rem; color:var(--muted);
   transition:background .3s,color .3s,border-color .3s,transform .3s var(--bnc);
 }
 .cert-card:hover .cert-arrow { background:var(--gold); color:var(--bg); border-color:var(--gold); transform:scale(1.1); }
@@ -470,6 +492,7 @@ footer { border-top:1px solid var(--brd); padding:1.7rem 2.5rem; }
   .skills-grid { grid-template-columns:1fr 1fr; }
   .exp-grid { grid-template-columns:1fr; gap:3rem; }
   .certs-grid { grid-template-columns:1fr; }
+  .certs-grid-3 { grid-template-columns:1fr; }
   .contact-grid { grid-template-columns:1fr; max-width:400px; }
   .proj-card { grid-template-columns:1fr; }
   .proj-num { writing-mode:horizontal-tb; border-right:none; border-bottom:1px solid var(--brd); padding:.7rem 1.5rem; justify-content:flex-start; }
